@@ -1,0 +1,20 @@
+{
+  "name": "lumo-oracle-platform",
+  "version": "1.0.0",
+  "description": "LUMO - Learning Unified Multimodal Oracle Platform",
+  "main": "g4f_cli.py",
+  "scripts": {
+    "start": "python -m g4f --port 8080",
+    "dev": "python -m g4f --port 8080 --debug"
+  },
+  "keywords": [
+    "lumo",
+    "ai",
+    "multimodal",
+    "oracle",
+    "chat",
+    "g4f"
+  ],
+  "author": "Charan Teja",
+  "license": "MIT"
+}
