@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lumo-oracle-platform"
+version = "1.0.0"
+description = "LUMO - Learning Unified Multimodal Oracle Platform"
+authors = [{ name = "Charan Teja", email = "charan.teja@lumo.ai" }]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "requests",
+    "aiohttp",
+    "fastapi",
+    "uvicorn",
+    "flask"
+]
+
+[tool.fastapi]
+entrypoint = "g4f.api:create_app"
