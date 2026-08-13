@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-python -m g4f --port 8080 --debug --reload
+uvicorn main:app --host 0.0.0.0 --port ${PORT:-8080}
