@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-color="purple">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMO - Members Area & Portal</title>
+    <link rel="icon" href="dist/img/lumo.jpg" type="image/jpeg">
+    <link rel="shortcut icon" href="dist/img/lumo.jpg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="dist/img/lumo.jpg">
+    <link rel="manifest" href="dist/img/site.webmanifest">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome & Framework scripts -->
+    <link rel="stylesheet" href="dist/css/all.min.css">
+    <script src="dist/js/framework.js" defer></script>
+
+    <style>
+        /* -------------------------------------------------------------
+           LUMO DESIGN SYSTEM & FIXED DEEP INDIGO GRADIENT BACKGROUND
+        ------------------------------------------------------------- */
+        :root {
+            /* Preset Color Accent Gradients */
+            --primary-gradient: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+            --primary-accent: #a855f7;
+            --primary-accent-hover: #9333ea;
+            --secondary-accent: #3b82f6;
+            --glow-purple: rgba(168, 85, 247, 0.4);
+
+            /* Typography */
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-title: 'Poppins', 'Inter', sans-serif;
+
+            /* Fixed Deep Indigo Dark Mode Gradient (#0f0c29 -> #302b63 -> #24243e) */
+            --bg-gradient: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+
+            --glass-bg: rgba(255, 255, 255, 0.07);
+            --glass-bg-hover: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --glass-border-hover: rgba(255, 255, 255, 0.4);
+            --glass-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+            --glass-blur: blur(20px);
+
+            --input-bg: rgba(0, 0, 0, 0.25);
+            --input-border: rgba(255, 255, 255, 0.15);
+
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.82);
+            --text-muted: rgba(255, 255, 255, 0.55);
+            --badge-bg: rgba(255, 255, 255, 0.12);
+
+            --nav-glass-bg: rgba(15, 12, 41, 0.78);
+            --headline-glow: drop-shadow(0 0 25px rgba(168, 85, 247, 0.45));
+        }
+
+        /* Fixed Soft Pastel Light Mode Gradient (#fdfbfb -> #ebedee) */
+        [data-theme="light"] {
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+
+            --glass-bg: rgba(255, 255, 255, 0.78);
+            --glass-bg-hover: rgba(255, 255, 255, 0.94);
+            --glass-border: rgba(255, 255, 255, 0.88);
+            --glass-border-hover: rgba(168, 85, 247, 0.45);
+            --glass-shadow: 0 16px 40px 0 rgba(31, 38, 135, 0.08), inset 0 1px 0 0 rgba(255, 255, 255, 0.95);
+            --glass-blur: blur(20px);
+
+            --input-bg: rgba(255, 255, 255, 0.6);
+            --input-border: rgba(168, 85, 247, 0.25);
+
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --badge-bg: rgba(168, 85, 247, 0.1);
+
+            --nav-glass-bg: rgba(255, 255, 255, 0.85);
+            --headline-glow: none;
+        }
+
+        /* Color Variations */
+        [data-color="teal"] {
+            --primary-gradient: linear-gradient(135deg, #06b6d4 0%, #ec4899 100%);
+            --primary-accent: #06b6d4;
+            --primary-accent-hover: #0891b2;
+            --secondary-accent: #ec4899;
+            --glow-purple: rgba(6, 182, 212, 0.4);
+            --headline-glow: drop-shadow(0 0 25px rgba(6, 182, 212, 0.45));
+        }
+
+        [data-color="orange"] {
+            --primary-gradient: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+            --primary-accent: #f97316;
+            --primary-accent-hover: #ea580c;
+            --secondary-accent: #ef4444;
+            --glow-purple: rgba(249, 115, 22, 0.4);
+            --headline-glow: drop-shadow(0 0 25px rgba(249, 115, 22, 0.45));
+        }
+
+        [data-color="emerald"] {
+            --primary-gradient: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+            --primary-accent: #10b981;
+            --primary-accent-hover: #059669;
+            --secondary-accent: #06b6d4;
+            --glow-purple: rgba(16, 185, 129, 0.4);
+            --headline-glow: drop-shadow(0 0 25px rgba(16, 185, 129, 0.45));
+        }
+
+        /* Base Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background 0.5s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-gradient) !important;
+            background-attachment: fixed !important;
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        /* -------------------------------------------------------------
+           HEADER & LIQUID GLASS NAVBAR (MATCHING LOGIN PAGE)
+        ------------------------------------------------------------- */
+        .nav-wrapper {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 1240px;
+            z-index: 100;
+        }
+
+        header.navbar {
+            background: var(--nav-glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 999px;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--glass-shadow);
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .brand-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 15px var(--glow-purple);
+            border: 1px solid var(--glass-border);
+        }
+
+        .brand-title {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: 0.8px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border-radius: 999px;
+            transition: all 0.25s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: var(--glass-bg-hover);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: var(--glass-blur);
+            transition: all 0.25s ease;
+            font-size: 1rem;
+        }
+
+        .icon-btn:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--glass-border-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px var(--glow-purple);
+        }
+
+        /* Palette Selector Dropdown */
+        .color-picker {
+            position: relative;
+        }
+
+        .color-picker-menu {
+            position: absolute;
+            top: 52px;
+            right: 0;
+            background: var(--nav-glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: var(--glass-shadow);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.25s ease;
+            z-index: 101;
+        }
+
+        .color-picker.active .color-picker-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .color-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .color-option:hover {
+            background: var(--glass-bg-hover);
+        }
+
+        .color-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .dot-purple { background: linear-gradient(135deg, #a855f7, #3b82f6); }
+        .dot-teal { background: linear-gradient(135deg, #06b6d4, #ec4899); }
+        .dot-orange { background: linear-gradient(135deg, #f97316, #ef4444); }
+        .dot-emerald { background: linear-gradient(135deg, #10b981, #06b6d4); }
+
+        /* Main Container */
+        .main-wrapper {
+            position: relative;
+            z-index: 1;
+            padding-top: 140px;
+            padding-bottom: 80px;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding-left: 24px;
+            padding-right: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* -------------------------------------------------------------
+           MEMBERS LIQUID GLASS CARD (MATCHING LOGIN PAGE)
+        ------------------------------------------------------------- */
+        .auth-card {
+            width: 100%;
+            max-width: 520px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 44px 40px;
+            box-shadow: var(--glass-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.12),
+                transparent
+            );
+            transition: left 0.75s ease;
+            pointer-events: none;
+        }
+
+        .auth-card:hover::before {
+            left: 100%;
+        }
+
+        .auth-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--badge-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--primary-accent);
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 6px 18px;
+            border-radius: 999px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 20px;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-title {
+            font-family: var(--font-title);
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 10px;
+            filter: var(--headline-glow);
+        }
+
+        .auth-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.98rem;
+            font-weight: 400;
+        }
+
+        .member-info-box {
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .member-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.92rem;
+        }
+
+        .member-label {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .member-value {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .btn-glass-submit {
+            background: var(--primary-gradient);
+            color: #ffffff;
+            font-family: var(--font-main);
+            font-size: 1.05rem;
+            font-weight: 700;
+            padding: 16px 28px;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px var(--glow-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-glass-submit:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 16px 40px var(--glow-purple);
+            color: #ffffff;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        footer.footer-glass {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--nav-glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border-top: 1px solid var(--glass-border);
+            padding: 16px 0;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            z-index: 90;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu { display: none; }
+            .auth-card { padding: 32px 24px; }
+            .auth-title { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body class="translate">
+
+    <!-- Premium Liquid Glass Header -->
+    <div class="nav-wrapper">
+        <header class="navbar">
+            <a href="home.html" class="brand-logo">
+                <img src="dist/img/lumo.jpg" alt="LUMO Logo">
+                <span class="brand-title">LUMO</span>
+            </a>
+
+            <ul class="nav-menu">
+                <li><a href="home.html" class="nav-link">Home</a></li>
+                <li><a href="chat/" class="nav-link">Chat</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <!-- Color Palette Switcher -->
+                <div class="color-picker" id="colorPicker">
+                    <button class="icon-btn" title="Change Color Palette" id="colorBtn">
+                        <i class="fa-solid fa-palette"></i>
+                    </button>
+                    <div class="color-picker-menu">
+                        <button class="color-option" data-color="purple">
+                            <span class="color-dot dot-purple"></span> Aurora (Purple)
+                        </button>
+                        <button class="color-option" data-color="teal">
+                            <span class="color-dot dot-teal"></span> Cyberpunk (Teal)
+                        </button>
+                        <button class="color-option" data-color="orange">
+                            <span class="color-dot dot-orange"></span> Sunset (Orange)
+                        </button>
+                        <button class="color-option" data-color="emerald">
+                            <span class="color-dot dot-emerald"></span> Matrix (Emerald)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Light / Dark Mode Toggle Button inside Header -->
+                <button class="icon-btn" id="themeToggle" title="Toggle Light / Dark Mode">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                </button>
+            </div>
+        </header>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="main-wrapper">
+        
+        <div class="auth-card">
+            
+            <div style="text-align: center;">
+                <span class="auth-badge"><i class="fa-solid fa-crown"></i> LUMO Members Area</span>
+            </div>
+
+            <div class="auth-header">
+                <h1 class="auth-title">Member Portal</h1>
+                <p class="auth-subtitle">Your active LUMO Oracle subscription and developer keys</p>
+            </div>
+
+            <div class="member-info-box">
+                <div class="member-row">
+                    <span class="member-label">Status</span>
+                    <span class="member-value" style="color: #10b981;"><i class="fa-solid fa-circle-check"></i> Verified Member</span>
+                </div>
+                <div class="member-row">
+                    <span class="member-label">Email</span>
+                    <span class="member-value" id="displayEmail">member@lumo.ai</span>
+                </div>
+                <div class="member-row">
+                    <span class="member-label">Account Tier</span>
+                    <span class="member-value" style="color: var(--primary-accent);">LUMO Oracle Pro</span>
+                </div>
+                <div class="member-row">
+                    <span class="member-label">API Session</span>
+                    <span class="member-value" style="font-family: monospace; font-size: 0.85rem;" id="displayToken">lumo_active_session</span>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+                <a href="chat/" class="btn-glass-submit">
+                    <i class="fa-solid fa-comments"></i> Launch LUMO Chat
+                </a>
+                <a href="login.html" id="logoutBtn" class="btn-glass-submit" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); box-shadow: none;">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-glass">
+        <p>&copy; 2026 LUMO (Learning Unified Multimodal Oracle). All Rights Reserved.</p>
+    </footer>
+
+    <!-- INTERACTIVE THEME & SESSION SCRIPT -->
+    <script>
+        const appStorage = window.localStorage || {
+            setItem: (key, value) => self[key] = value,
+            getItem: (key) => self[key],
+            removeItem: (key) => delete self[key],
+            length: 0
+        };
+
+        const displayEmail = document.getElementById('displayEmail');
+        const displayToken = document.getElementById('displayToken');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        const savedEmail = appStorage.getItem('lumo_email') || 'member@lumo.ai';
+        const savedToken = appStorage.getItem('g4f_session') || appStorage.getItem('lumo_session') || 'lumo_token_pro';
+
+        displayEmail.textContent = savedEmail;
+        displayToken.textContent = savedToken.substring(0, 18) + '...';
+
+        logoutBtn.addEventListener('click', () => {
+            appStorage.removeItem('g4f_session');
+            appStorage.removeItem('lumo_session');
+        });
+
+        // Theme and Color Preset Management
+        const htmlEl = document.documentElement;
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const colorBtn = document.getElementById('colorBtn');
+        const colorPicker = document.getElementById('colorPicker');
+
+        const savedTheme = localStorage.getItem('lumo_liquid_theme') || 'dark';
+        const savedColor = localStorage.getItem('lumo_liquid_color') || 'purple';
+
+        function applyTheme(theme) {
+            htmlEl.setAttribute('data-theme', theme);
+            localStorage.setItem('lumo_liquid_theme', theme);
+            if (theme === 'light') {
+                themeIcon.className = 'fa-solid fa-sun';
+            } else {
+                themeIcon.className = 'fa-solid fa-moon';
+            }
+        }
+
+        function applyColor(color) {
+            htmlEl.setAttribute('data-color', color);
+            localStorage.setItem('lumo_liquid_color', color);
+        }
+
+        applyTheme(savedTheme);
+        applyColor(savedColor);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = htmlEl.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+        });
+
+        colorBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            colorPicker.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!colorPicker.contains(e.target)) {
+                colorPicker.classList.remove('active');
+            }
+        });
+
+        document.querySelectorAll('.color-option').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const selectedColor = btn.getAttribute('data-color');
+                applyColor(selectedColor);
+                colorPicker.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

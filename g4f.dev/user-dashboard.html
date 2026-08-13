@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-color="purple">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMO - User Dashboard</title>
+    <link rel="icon" href="dist/img/lumo.jpg" type="image/jpeg">
+    <link rel="shortcut icon" href="dist/img/lumo.jpg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="dist/img/lumo.jpg">
+    
+    <!-- Google Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dist/css/all.min.css">
+    <script src="dist/js/space-wallpaper.js" defer></script>
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+            --primary-accent: #a855f7;
+            --bg-gradient: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            --glass-bg: rgba(255, 255, 255, 0.07);
+            --glass-border: rgba(255, 255, 255, 0.16);
+            --glass-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.45);
+            --glass-blur: blur(24px);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.82);
+            --text-muted: rgba(255, 255, 255, 0.55);
+        }
+
+        html[data-theme="light"] {
+            --bg-gradient: linear-gradient(135deg, #fff5f7 0%, #f3e8ff 45%, #e0f2fe 100%);
+            --glass-bg: rgba(255, 255, 255, 0.88);
+            --glass-border: rgba(199, 210, 254, 0.5);
+            --glass-shadow: 0 16px 40px 0 rgba(199, 210, 254, 0.35);
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+        body { background: var(--bg-gradient); color: var(--text-primary); min-height: 100vh; padding-top: 100px; padding-bottom: 60px; }
+
+        header.navbar {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: 92%; max-width: 1240px; background: rgba(15, 12, 41, 0.85); backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border); border-radius: 999px; padding: 12px 28px;
+            display: flex; align-items: center; justify-content: space-between; z-index: 100;
+        }
+        html[data-theme="light"] header.navbar { background: rgba(255, 255, 255, 0.9); }
+
+        .brand-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-primary); }
+        .brand-logo img { width: 38px; height: 38px; border-radius: 50%; }
+        .brand-title { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 1.4rem; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .nav-actions { display: flex; align-items: center; gap: 10px; }
+        .btn-nav { background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--text-primary); padding: 8px 18px; border-radius: 999px; font-weight: 600; text-decoration: none; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-nav:hover { background: var(--primary-accent); color: #fff; border-color: transparent; }
+
+        .dashboard-container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+        .page-header { margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .page-title { font-family: 'Poppins', sans-serif; font-size: 2rem; font-weight: 800; }
+
+        .profile-card { background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 28px; padding: 32px; box-shadow: var(--glass-shadow); margin-bottom: 30px; }
+        .profile-header { display: flex; align-items: center; gap: 20px; margin-bottom: 24px; }
+        .profile-avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--primary-gradient); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: #fff; }
+
+        .badge-role { display: inline-block; padding: 4px 12px; border-radius: 999px; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; }
+        .badge-user { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
+
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+        .info-item { background: rgba(255, 255, 255, 0.05); padding: 16px 20px; border-radius: 16px; border: 1px solid var(--glass-border); }
+        .info-label { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 6px; }
+        .info-val { font-weight: 700; font-size: 1.05rem; }
+
+        .action-banner { background: var(--primary-gradient); border-radius: 24px; padding: 28px; color: #ffffff; display: flex; align-items: center; justify-content: space-between; gap: 20px; box-shadow: 0 10px 30px rgba(168, 85, 247, 0.3); flex-wrap: wrap; }
+        .btn-launch { background: #ffffff; color: #4c1d95; padding: 12px 28px; border-radius: 999px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; font-size: 1rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
+        .btn-launch:hover { transform: scale(1.04); }
+    </style>
+</head>
+<body>
+    <!-- Auth Check Guard -->
+    <script>
+        const role = localStorage.getItem('lumo_role');
+        const session = localStorage.getItem('lumo_session');
+        if (!session || (role !== 'user' && role !== 'admin')) {
+            alert('Access Denied: Please log in with your credentials.');
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <header class="navbar">
+        <a href="home.html" class="brand-logo">
+            <img src="dist/img/lumo.jpg" alt="LUMO Logo">
+            <span class="brand-title">LUMO User</span>
+            <span class="dev-credit-badge" style="background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.35); color: var(--primary-accent); font-size: 0.78rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; margin-left: 8px;">
+                <i class="fa-solid fa-code"></i> By <strong>Charan Teja</strong>
+            </span>
+        </a>
+        <div class="nav-actions">
+            <!-- Dedicated User Role Chat Button -->
+            <a href="chat/?role=user" class="btn-nav" style="background: var(--primary-gradient); color: #ffffff;"><i class="fa-solid fa-comments"></i> User Chat</a>
+            
+            <!-- Light/Dark Mode Toggle Button -->
+            <button class="btn-nav" id="themeToggleBtn" title="Toggle Light/Dark Mode">
+                <i class="fa-solid fa-moon" id="themeIcon"></i> Theme
+            </button>
+            
+            <!-- Visible Logout Button -->
+            <button class="btn-nav" id="userLogoutBtn" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border-color: rgba(239, 68, 68, 0.4);"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">User Member Workspace</h1>
+                <p style="color: var(--text-secondary);">Manage your profile, active sessions, and preferences</p>
+            </div>
+            <span class="badge-role badge-user"><i class="fa-solid fa-user-check"></i> Standard User</span>
+        </div>
+
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar"><i class="fa-solid fa-user"></i></div>
+                <div>
+                    <h2 style="font-size: 1.4rem; font-weight: 700;" id="userDisplayEmail">user1@lumo.ai</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Authenticated LUMO Member</p>
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Account Status</div>
+                    <div class="info-val" style="color: #34d399;"><i class="fa-solid fa-circle-check"></i> Active Session</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Member Tier</div>
+                    <div class="info-val" style="color: var(--primary-accent);">LUMO Pro User</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Dedicated Chat Access</div>
+                    <div class="info-val" style="color: #60a5fa;"><i class="fa-solid fa-shield"></i> User Role Channel</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-banner">
+            <div>
+                <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;">Ready to Explore LUMO Chat?</h2>
+                <p style="font-size: 0.95rem; opacity: 0.9;">Start streaming real-time AI responses on your dedicated User Chat page.</p>
+            </div>
+            <!-- Dedicated User Chat Link -->
+            <a href="chat/?role=user" class="btn-launch"><i class="fa-solid fa-paper-plane"></i> Launch User Chat</a>
+        </div>
+
+        <footer style="text-align: center; margin-top: 40px; color: var(--text-muted); font-size: 0.88rem;">
+            <p>&copy; 2026 LUMO User Workspace. Designed & Developed by <strong style="color: var(--primary-accent);">Charan Teja</strong>. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        const savedEmail = localStorage.getItem('lumo_email') || 'user1@lumo.ai';
+        document.getElementById('userDisplayEmail').textContent = savedEmail;
+
+        // Light/Dark Theme Switcher Logic
+        const htmlEl = document.documentElement;
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+
+        function applyDashboardTheme(theme) {
+            htmlEl.setAttribute('data-theme', theme);
+            localStorage.setItem('lumo_liquid_theme', theme);
+            if (theme === 'light') {
+                themeIcon.className = 'fa-solid fa-sun';
+            } else {
+                themeIcon.className = 'fa-solid fa-moon';
+            }
+        }
+
+        const savedTheme = localStorage.getItem('lumo_liquid_theme') || 'dark';
+        applyDashboardTheme(savedTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = htmlEl.getAttribute('data-theme');
+            applyDashboardTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        });
+
+        // Visible Logout Handler
+        document.getElementById('userLogoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('lumo_session');
+            localStorage.removeItem('lumo_role');
+            localStorage.removeItem('lumo_email');
+            localStorage.removeItem('g4f_session');
+            localStorage.removeItem('lumo_guest');
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

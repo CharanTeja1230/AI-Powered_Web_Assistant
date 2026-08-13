@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="en" data-framework="javascript">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>LUMO Chat - Conversational Multimodal Oracle</title>
+
+    <!-- Improved meta description with relevant keywords -->
+    <meta name="description" content="LUMO Chat is an advanced conversational AI platform designed to listen, learn, and challenge your ideas effectively. Experience AI-powered chat with private conversations, customizable settings, and multiple providers." />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="LUMO Chat - Conversational Multimodal Oracle" />
+    <meta property="og:description" content="Engage with LUMO Chat's AI system for dynamic, private, and customizable conversations powered by cutting-edge technology." />
+    <meta property="og:image" content="../dist/img/lumo.jpg" />
+    <meta property="og:url" content="https://g4f.dev" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="LUMO Chat - Conversational Multimodal Oracle" />
+    <meta name="twitter:description" content="Use LUMO Chat for private and customizable AI-driven chat experiences, supporting multiple AI providers and seamless communication." />
+    <meta name="twitter:image" content="../dist/img/lumo.jpg" />
+
+    <!-- Canonical URL to avoid duplicate content issues -->
+    <link rel="canonical" href="https://g4f.dev/chat/" />
+
+    <link rel="stylesheet" href="../dist/css/style.css?v=8.1.1" />
+    <link rel="stylesheet" href="../dist/css/all.min.css" />
+    <link rel="stylesheet" href="../dist/css/dracula.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe/dist/photoswipe.css" />
+
+    <link rel="icon" href="../dist/img/lumo.jpg" type="image/jpeg">
+    <link rel="shortcut icon" href="../dist/img/lumo.jpg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="../dist/img/lumo.jpg">
+    <link rel="manifest" href="../dist/img/site.webmanifest">
+
+    <style>
+        /* Container Layout System (Exposing Space-Themed Live Wallpaper) */
+        .container {
+            display: flex !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            overflow: hidden !important;
+            position: relative !important;
+            background: transparent !important;
+            transition: background 0.6s ease, color 0.6s ease !important;
+        }
+
+        /* Sidebar Styling & Smooth Animation */
+        aside.sidebar {
+            width: 290px !important;
+            min-width: 290px !important;
+            height: 100vh !important;
+            flex-shrink: 0 !important;
+            position: relative !important;
+            z-index: 50 !important;
+            transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
+                        opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
+                        transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            background: rgba(15, 12, 41, 0.88) !important;
+            backdrop-filter: blur(24px) !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
+            margin-left: 0 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            padding: 0 !important;
+        }
+
+        .sidebar-container {
+            padding: 20px 16px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            height: 100% !important;
+            overflow: hidden !important;
+            gap: 14px !important;
+            box-sizing: border-box !important;
+        }
+
+        /* User Tier Badge */
+        .user-tier-info {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 16px !important;
+            padding: 10px 14px !important;
+        }
+
+        .tier-row {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 10px !important;
+        }
+
+        .tier-badge {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            font-size: 0.9rem !important;
+            font-weight: 600 !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+        }
+
+        .tier-auth-btn {
+            background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%) !important;
+            color: #ffffff !important;
+            font-size: 0.82rem !important;
+            font-weight: 700 !important;
+            padding: 6px 14px !important;
+            border-radius: 999px !important;
+            text-decoration: none !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            flex-shrink: 0 !important;
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3) !important;
+        }
+
+        /* New Conversation Buttons */
+        .sidebar nav.top {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            flex: 1 1 auto !important;
+            overflow-y: auto !important;
+        }
+
+        .new_convo {
+            background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%) !important;
+            color: #ffffff !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 0.92rem !important;
+            font-weight: 700 !important;
+            padding: 12px 16px !important;
+            border-radius: 14px !important;
+            border: none !important;
+            cursor: pointer !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3) !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+
+        .new_convo:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 22px rgba(168, 85, 247, 0.45) !important;
+        }
+
+        .sidebar .conversations {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 6px !important;
+            overflow-y: auto !important;
+            margin-top: 10px !important;
+        }
+
+        .sidebar .convo {
+            padding: 10px 14px !important;
+            border-radius: 12px !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            color: rgba(255, 255, 255, 0.85) !important;
+            font-size: 0.9rem !important;
+            transition: all 0.2s ease !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+
+        .sidebar .convo:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+            color: #ffffff !important;
+        }
+
+        /* Sidebar Bottom Settings Button (Single, Clean) */
+        .sidebar .bottom_buttons {
+            margin-top: auto !important;
+            padding-top: 10px !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .sidebar .bottom_buttons button {
+            width: 100% !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            color: #ffffff !important;
+            font-size: 0.9rem !important;
+            font-weight: 600 !important;
+            padding: 12px 16px !important;
+            border-radius: 14px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            cursor: pointer !important;
+        }
+
+        .sidebar .bottom_buttons button:hover {
+            background: rgba(168, 85, 247, 0.2) !important;
+            border-color: #a855f7 !important;
+        }
+
+        /* -------------------------------------------------------------
+           REFINED SLIM FROSTED GLASS COLLAPSED SIDEBAR (ICONIC MODE)
+        ------------------------------------------------------------- */
+        body.sidebar-closed aside.sidebar, 
+        aside.sidebar.closed, 
+        aside.sidebar.collapsed {
+            width: 72px !important;
+            min-width: 72px !important;
+            margin-left: 0 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
+            box-shadow: 4px 0 25px rgba(199, 210, 254, 0.25) !important;
+        }
+
+        /* Hide text labels in collapsed sidebar mode */
+        body.sidebar-closed aside.sidebar .sidebar-logo span,
+        body.sidebar-closed aside.sidebar .user-tier-info span:not(.icon-only),
+        body.sidebar-closed aside.sidebar .new_convo span,
+        body.sidebar-closed aside.sidebar .new_convo text,
+        body.sidebar-closed aside.sidebar .convo-title,
+        body.sidebar-closed aside.sidebar .convo .title,
+        body.sidebar-closed aside.sidebar .bottom_buttons button span,
+        aside.sidebar.closed .sidebar-logo span,
+        aside.sidebar.closed .new_convo span,
+        aside.sidebar.closed .convo .title,
+        aside.sidebar.closed .bottom_buttons button span {
+            display: none !important;
+        }
+
+        /* Center icons vertically in collapsed sidebar */
+        body.sidebar-closed aside.sidebar .sidebar-container,
+        aside.sidebar.closed .sidebar-container {
+            padding: 20px 10px !important;
+            align-items: center !important;
+            gap: 16px !important;
+        }
+
+        body.sidebar-closed aside.sidebar .sidebar-logo,
+        aside.sidebar.closed .sidebar-logo {
+            justify-content: center !important;
+            width: 100% !important;
+            margin-bottom: 6px !important;
+        }
+
+        body.sidebar-closed aside.sidebar .new_convo,
+        aside.sidebar.closed .new_convo {
+            width: 46px !important;
+            height: 46px !important;
+            padding: 0 !important;
+            border-radius: 50% !important;
+            justify-content: center !important;
+            align-items: center !important;
+            font-size: 1.1rem !important;
+        }
+
+        body.sidebar-closed aside.sidebar .convo,
+        aside.sidebar.closed .convo {
+            width: 44px !important;
+            height: 44px !important;
+            padding: 0 !important;
+            border-radius: 50% !important;
+            justify-content: center !important;
+            align-items: center !important;
+            display: inline-flex !important;
+        }
+
+        body.sidebar-closed aside.sidebar .user-tier-info,
+        aside.sidebar.closed .user-tier-info {
+            padding: 8px !important;
+            border-radius: 50% !important;
+            width: 48px !important;
+            height: 48px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        body.sidebar-closed aside.sidebar .bottom_buttons button,
+        aside.sidebar.closed .bottom_buttons button {
+            width: 46px !important;
+            height: 46px !important;
+            padding: 0 !important;
+            border-radius: 50% !important;
+            justify-content: center !important;
+            align-items: center !important;
+        }
+
+        /* Hover States for Collapsed Icons: Soft Light Violet-Blue Glow */
+        body.sidebar-closed aside.sidebar button:hover,
+        body.sidebar-closed aside.sidebar .convo:hover,
+        aside.sidebar.closed button:hover,
+        aside.sidebar.closed .convo:hover {
+            background: linear-gradient(135deg, #ede9fe 0%, #c7d2fe 100%) !important;
+            color: #4c1d95 !important;
+            transform: scale(1.08) !important;
+            box-shadow: 0 4px 15px rgba(199, 210, 254, 0.6) !important;
+        }
+
+        /* -------------------------------------------------------------
+           SPACE THEME NEON & PASTEL HOVER ACCENTS (DARK & LIGHT)
+        ------------------------------------------------------------- */
+        body:not(.white) button:hover,
+        body:not(.white) .convo:hover,
+        body:not(.white) .icon-btn:hover {
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.4), 0 0 25px rgba(255, 0, 127, 0.25) !important;
+        }
+
+        body:not(.white) #sendButton:hover {
+            background: linear-gradient(135deg, #00f3ff 0%, #a855f7 100%) !important;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.6) !important;
+        }
+
+        body.white button:hover,
+        body.white .convo:hover,
+        body.white .icon-btn:hover,
+        body[data-theme="light"] button:hover,
+        body[data-theme="light"] .convo:hover,
+        body[data-theme="light"] .icon-btn:hover {
+            background: linear-gradient(135deg, #ede9fe 0%, #c7d2fe 100%) !important;
+            color: #4c1d95 !important;
+            box-shadow: 0 4px 18px rgba(199, 210, 254, 0.6) !important;
+        }
+
+        /* Chat Main Container Adjusts Automatically */
+        .chat-container {
+            flex: 1 1 auto !important;
+            height: 100vh !important;
+            display: flex !important;
+            flex-direction: column !important;
+            position: relative !important;
+            overflow: hidden !important;
+            z-index: 10 !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+
+        /* Sidebar Toggle Button styling */
+        .mobile-sidebar-toggle {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+            z-index: 100 !important;
+            background: rgba(255, 255, 255, 0.12) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            width: 40px !important;
+            height: 40px !important;
+            border-radius: 50% !important;
+            transition: all 0.25s ease !important;
+        }
+        .mobile-sidebar-toggle:hover {
+            background: rgba(168, 85, 247, 0.35) !important;
+            border-color: #a855f7 !important;
+            transform: scale(1.05) !important;
+        }
+
+        /* Top Header Bar */
+        header.chat-top-panel {
+            height: 60px !important;
+            min-height: 60px !important;
+            padding: 0 24px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            background: rgba(15, 12, 41, 0.75) !important;
+            backdrop-filter: blur(16px) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        /* Collapsible System Prompt */
+        #chatPrompt {
+            background: rgba(10, 8, 30, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+            padding: 10px 16px !important;
+            border-radius: 12px !important;
+            font-size: 0.88rem !important;
+            margin: 10px 24px 0 24px !important;
+        }
+
+        /* Chat Body & Structured Message Bubbles */
+        .chat-body {
+            flex: 1 1 auto !important;
+            overflow-y: auto !important;
+            padding: 30px 24px !important;
+            max-width: 900px !important;
+            width: 100% !important;
+            margin: 0 auto !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 20px !important;
+            box-sizing: border-box !important;
+        }
+
+        .chat-body .message {
+            border-radius: 18px !important;
+            padding: 16px 22px !important;
+            margin-bottom: 16px !important;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18) !important;
+            line-height: 1.6 !important;
+        }
+
+        .chat-body .message.user {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(59, 130, 246, 0.25) 100%) !important;
+            border: 1px solid rgba(168, 85, 247, 0.35) !important;
+            border-bottom-right-radius: 4px !important;
+        }
+
+        .chat-body .message:not(.user) {
+            background: rgba(255, 255, 255, 0.08) !important;
+            backdrop-filter: blur(16px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.16) !important;
+            border-bottom-left-radius: 4px !important;
+        }
+
+        /* Floating Input Dock at Bottom (Zero Overlapping) */
+        footer.chat-footer {
+            padding: 16px 24px 24px 24px !important;
+            max-width: 900px !important;
+            width: 100% !important;
+            margin: 0 auto !important;
+            background: transparent !important;
+            box-sizing: border-box !important;
+        }
+
+        .user-input {
+            background: rgba(20, 16, 50, 0.85) !important;
+            backdrop-filter: blur(24px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.18) !important;
+            border-radius: 24px !important;
+            padding: 12px 18px !important;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35) !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .input-area {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            width: 100% !important;
+            position: relative !important;
+        }
+
+        textarea#userInput {
+            background: transparent !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            color: #ffffff !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 0.98rem !important;
+            line-height: 1.5 !important;
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
+            width: 100% !important;
+            max-height: 140px !important;
+            padding: 8px 12px !important;
+            margin: 0 !important;
+            resize: none !important;
+        }
+
+        textarea#userInput::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        .input-area button, 
+        .input-area label, 
+        .input-area select,
+        #sendButton {
+            flex-shrink: 0 !important;
+        }
+
+        #sendButton {
+            background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%) !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            font-size: 0.92rem !important;
+            padding: 10px 22px !important;
+            border-radius: 999px !important;
+            border: none !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4) !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            flex-shrink: 0 !important;
+            transition: all 0.25s ease !important;
+        }
+
+        #sendButton:hover {
+            transform: scale(1.04) !important;
+            box-shadow: 0 6px 22px rgba(168, 85, 247, 0.55) !important;
+        }
+
+        /* Strict Auth UI Hidden Classes for Sidebar */
+        #sidebar-login-btn.hidden,
+        #sidebar-logout-btn.hidden {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+
+        /* -------------------------------------------------------------
+           LUMO LIGHT MODE PALETTE (ALL-LIGHT PASTEL COLORS)
+        ------------------------------------------------------------- */
+        body.white, 
+        body[data-theme="light"],
+        body.white .container,
+        body[data-theme="light"] .container,
+        body.white .chat-container,
+        body[data-theme="light"] .chat-container,
+        body.white main.chat-container,
+        body[data-theme="light"] main.chat-container,
+        body.white .conversation,
+        body[data-theme="light"] .conversation,
+        body.white .chat-body,
+        body[data-theme="light"] .chat-body {
+            background: linear-gradient(135deg, #fff5f7 0%, #f3e8ff 45%, #e0f2fe 100%) !important;
+            background-color: #f3e8ff !important;
+            color: #0f172a !important;
+            font-family: 'Inter', 'Poppins', -apple-system, sans-serif !important;
+        }
+
+        /* Eliminate dark gradient radial overlay in Light Mode */
+        body.white .gradient, body[data-theme="light"] .gradient {
+            background: linear-gradient(135deg, #fff5f7 0%, #f3e8ff 45%, #e0f2fe 100%) !important;
+            opacity: 0.2 !important;
+        }
+
+        /* Bright Light System Prompt Box */
+        body.white #chatPrompt, body[data-theme="light"] #chatPrompt {
+            background: rgba(255, 255, 255, 0.85) !important;
+            color: #4c1d95 !important;
+            box-shadow: 0 4px 15px rgba(199, 210, 254, 0.3) !important;
+        }
+
+        /* 1. Sidebar Light Glass & Pastel Buttons */
+        body.white aside.sidebar, body[data-theme="light"] aside.sidebar {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(28px) !important;
+            box-shadow: 6px 0 30px rgba(199, 210, 254, 0.2) !important;
+        }
+
+        body.white .sidebar-logo span, body[data-theme="light"] .sidebar-logo span {
+            color: #4c1d95 !important;
+            font-weight: 800 !important;
+        }
+
+        body.white .user-tier-info, body[data-theme="light"] .user-tier-info {
+            background: rgba(245, 243, 255, 0.8) !important;
+            box-shadow: 0 4px 15px rgba(199, 210, 254, 0.2) !important;
+        }
+
+        body.white .tier-badge, body[data-theme="light"] .tier-badge {
+            color: #4c1d95 !important;
+        }
+
+        /* + New Conversation & Login: Pastel Violet-Blue Gradient */
+        body.white #sidebar-login-btn, body[data-theme="light"] #sidebar-login-btn,
+        body.white .new_convo, body[data-theme="light"] .new_convo {
+            background: linear-gradient(135deg, #ede9fe 0%, #c7d2fe 50%, #bae6fd 100%) !important;
+            color: #4c1d95 !important;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 15px rgba(199, 210, 254, 0.5) !important;
+        }
+        body.white .new_convo:hover, body[data-theme="light"] .new_convo:hover {
+            box-shadow: 0 8px 22px rgba(199, 210, 254, 0.7) !important;
+            transform: translateY(-2px) !important;
+        }
+
+        /* Private Conversation: Frosted Lavender Pill */
+        body.white nav.top button.new_convo:nth-of-type(2), 
+        body[data-theme="light"] nav.top button.new_convo:nth-of-type(2) {
+            background: rgba(237, 233, 254, 0.6) !important;
+            color: #7c3aed !important;
+            box-shadow: none !important;
+            font-weight: 700 !important;
+        }
+        body.white nav.top button.new_convo:nth-of-type(2):hover, 
+        body[data-theme="light"] nav.top button.new_convo:nth-of-type(2):hover {
+            background: rgba(237, 233, 254, 0.9) !important;
+            color: #6d28d9 !important;
+        }
+
+        body.white .sidebar .convo, body[data-theme="light"] .sidebar .convo {
+            background: rgba(245, 243, 255, 0.7) !important;
+            color: #4c1d95 !important;
+        }
+        body.white .sidebar .convo:hover, body[data-theme="light"] .sidebar .convo:hover {
+            background: rgba(237, 233, 254, 0.9) !important;
+            color: #6d28d9 !important;
+        }
+
+        body.white .sidebar .bottom_buttons button, body[data-theme="light"] .sidebar .bottom_buttons button {
+            background: rgba(245, 243, 255, 0.9) !important;
+            color: #4c1d95 !important;
+            font-weight: 600 !important;
+        }
+
+        /* 2. Top Panel Header Light Mode */
+        body.white header.chat-top-panel, body[data-theme="light"] header.chat-top-panel {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(28px) !important;
+            box-shadow: 0 4px 20px rgba(199, 210, 254, 0.15) !important;
+        }
+        body.white .convo-title, body[data-theme="light"] .convo-title {
+            color: #4c1d95 !important;
+            font-weight: 800 !important;
+        }
+
+        body.white .mobile-sidebar-toggle, body[data-theme="light"] .mobile-sidebar-toggle,
+        body.white .theme-toggle-btn, body[data-theme="light"] .theme-toggle-btn {
+            background: rgba(245, 243, 255, 0.9) !important;
+            color: #6d28d9 !important;
+            box-shadow: 0 2px 10px rgba(199, 210, 254, 0.3) !important;
+        }
+        body.white .theme-toggle-btn:hover, body[data-theme="light"] .theme-toggle-btn:hover {
+            background: rgba(237, 233, 254, 1) !important;
+            color: #5b21b6 !important;
+        }
+
+        /* 3. Message Bubbles & Suggested Prompts */
+        /* Assistant Messages: Translucent White Cards with Lavender Shadow */
+        body.white .chat-body .message:not(.user), 
+        body[data-theme="light"] .chat-body .message:not(.user) {
+            background: rgba(255, 255, 255, 0.94) !important;
+            color: #0f172a !important;
+            box-shadow: 0 6px 22px rgba(199, 210, 254, 0.25) !important;
+            border-radius: 20px !important;
+            backdrop-filter: blur(20px) !important;
+        }
+
+        /* User Messages: Pastel Violet Gradient */
+        body.white .chat-body .message.user, 
+        body[data-theme="light"] .chat-body .message.user {
+            background: linear-gradient(135deg, #e9d5ff 0%, #c7d2fe 100%) !important;
+            color: #4c1d95 !important;
+            font-weight: 600 !important;
+            box-shadow: 0 6px 20px rgba(199, 210, 254, 0.4) !important;
+            border-radius: 20px !important;
+        }
+
+        /* Suggested Prompts / Prompt Chips: Frosted Lavender Pills */
+        body.white .field button,
+        body.white .suggestion-chip,
+        body.white .micro-prompt-chip,
+        body[data-theme="light"] .field button,
+        body[data-theme="light"] .suggestion-chip,
+        body[data-theme="light"] .micro-prompt-chip {
+            background: rgba(245, 243, 255, 0.9) !important;
+            color: #6d28d9 !important;
+            border-radius: 999px !important;
+            padding: 10px 18px !important;
+            font-size: 0.88rem !important;
+            font-weight: 600 !important;
+            box-shadow: 0 3px 12px rgba(199, 210, 254, 0.25) !important;
+            transition: all 0.2s ease !important;
+        }
+
+        body.white .field button:hover,
+        body[data-theme="light"] .field button:hover {
+            background: rgba(237, 233, 254, 0.95) !important;
+            color: #5b21b6 !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* 4. Floating Input Dock & Controls */
+        body.white .user-input, body[data-theme="light"] .user-input {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(28px) !important;
+            box-shadow: 0 12px 40px rgba(199, 210, 254, 0.3) !important;
+            border-radius: 24px !important;
+        }
+
+        body.white textarea#userInput, body[data-theme="light"] textarea#userInput {
+            color: #0f172a !important;
+        }
+        body.white textarea#userInput::placeholder, body[data-theme="light"] textarea#userInput::placeholder {
+            color: #a78bfa !important;
+            opacity: 0.85 !important;
+        }
+
+        /* Send Button: Pastel Violet-Blue Gradient */
+        body.white #sendButton, body[data-theme="light"] #sendButton {
+            background: linear-gradient(135deg, #c7d2fe 0%, #a5b4fc 100%) !important;
+            color: #4c1d95 !important;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 15px rgba(165, 180, 252, 0.5) !important;
+        }
+
+        /* Action & Regenerate Buttons: Soft Frosted Lavender */
+        body.white .regenerate button,
+        body.white .stop_generating button,
+        body.white .media-select label,
+        body[data-theme="light"] .regenerate button,
+        body[data-theme="light"] .stop_generating button,
+        body[data-theme="light"] .media-select label {
+            background: #f3e8ff !important;
+            color: #7c3aed !important;
+            box-shadow: 0 3px 10px rgba(199, 210, 254, 0.25) !important;
+            font-weight: 600 !important;
+            border-radius: 999px !important;
+            transition: all 0.2s ease !important;
+        }
+        body.white .regenerate button:hover,
+        body[data-theme="light"] .regenerate button:hover {
+            background: #e9d5ff !important;
+            color: #6d28d9 !important;
+        }
+        body.white .regenerate button:hover,
+        body[data-theme="light"] .regenerate button:hover {
+            background: #e9d5ff !important;
+            color: #581c87 !important;
+        }
+
+        /* Remove ALL Borders on Chat Page */
+        aside.sidebar,
+        header.chat-top-panel,
+        .user-tier-info,
+        .chat-body .message,
+        .user-input,
+        textarea#userInput,
+        .sidebar .convo,
+        .sidebar .bottom_buttons,
+        .sidebar .bottom_buttons button,
+        .tier-badge,
+        .mobile-sidebar-toggle,
+        .theme-toggle-btn,
+        #chatPrompt {
+            border: none !important;
+            border-color: transparent !important;
+        }
+
+        /* Settings Right-Side Slide-Over Drawer (Modal Overlay) */
+        section.settings {
+            position: fixed !important;
+            top: 0 !important;
+            right: 0 !important;
+            width: 500px !important;
+            max-width: 90vw !important;
+            height: 100vh !important;
+            z-index: 2000 !important;
+            background: rgba(15, 12, 41, 0.94) !important;
+            backdrop-filter: blur(28px) !important;
+            box-shadow: -15px 0 50px rgba(0, 0, 0, 0.6) !important;
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease !important;
+            overflow-y: auto !important;
+            padding: 24px !important;
+            box-sizing: border-box !important;
+        }
+
+        section.settings.hidden {
+            display: block !important;
+            transform: translateX(100%) !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            visibility: hidden !important;
+        }
+
+        body.white section.settings, body[data-theme="light"] section.settings {
+            background: rgba(255, 255, 255, 0.96) !important;
+            box-shadow: -15px 0 50px rgba(0, 0, 0, 0.15) !important;
+            color: #0f172a !important;
+        }
+
+        /* -------------------------------------------------------------
+           LUMO CHAT COMPREHENSIVE UI/UX FIX & GLASS OVERHAUL
+        ------------------------------------------------------------- */
+        /* 1. Hide floating unstyled legacy textboxes & buttons */
+        textarea#chatPrompt,
+        .slide-header,
+        .hidden,
+        input[type="file"],
+        .sr-only,
+        .hide-input {
+            display: none !important;
+        }
+
+        /* Keep labels clickably styled without displaying raw native file input text */
+        label.file-label input[type="file"],
+        label.image-select input[type="file"],
+        label.capture-camera input[type="file"] {
+            width: 0.1px !important;
+            height: 0.1px !important;
+            opacity: 0 !important;
+            overflow: hidden !important;
+            position: absolute !important;
+            z-index: -1 !important;
+        }
+
+        /* 2. Top Navigation Bar */
+        header.chat-top-panel {
+            height: 64px !important;
+            min-height: 64px !important;
+            padding: 0 24px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            background: rgba(15, 12, 41, 0.82) !important;
+            backdrop-filter: blur(24px) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+        }
+
+        /* 3. Sleek Floating Action Buttons (Regenerate / Stop Generating) */
+        .chat-toolbar {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 12px !important;
+            margin-bottom: 10px !important;
+        }
+
+        .stop_generating button,
+        .regenerate button {
+            background: rgba(255, 255, 255, 0.12) !important;
+            backdrop-filter: blur(16px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 0.85rem !important;
+            font-weight: 600 !important;
+            padding: 8px 18px !important;
+            border-radius: 999px !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+            transition: all 0.25s ease !important;
+        }
+
+        .stop_generating button:hover,
+        .regenerate button:hover {
+            background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%) !important;
+            border-color: #a855f7 !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4) !important;
+        }
+
+        /* Hide stop/regenerate containers when empty */
+        .stop_generating:empty,
+        .regenerate:empty,
+        .stop_generating-hidden {
+            display: none !important;
+        }
+
+        /* 4. Bottom Controls & Model / Provider Selectors Bar */
+        nav.chat-buttons {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-wrap: wrap !important;
+            gap: 12px !important;
+            margin-top: 14px !important;
+            padding: 8px 16px !important;
+            background: rgba(15, 12, 41, 0.6) !important;
+            backdrop-filter: blur(20px) !important;
+            border-radius: 999px !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            width: fit-content !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+
+        nav.chat-buttons select {
+            background: rgba(255, 255, 255, 0.12) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 0.84rem !important;
+            font-weight: 600 !important;
+            padding: 6px 14px !important;
+            border-radius: 999px !important;
+            outline: none !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+        }
+
+        nav.chat-buttons select option {
+            background: #0f0c29 !important;
+            color: #ffffff !important;
+        }
+
+        nav.chat-buttons select:hover {
+            background: rgba(168, 85, 247, 0.25) !important;
+            border-color: #a855f7 !important;
+        }
+
+        nav.chat-buttons button {
+            background: rgba(255, 255, 255, 0.12) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            width: 34px !important;
+            height: 34px !important;
+            border-radius: 50% !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+        }
+
+        nav.chat-buttons button:hover {
+            background: rgba(168, 85, 247, 0.35) !important;
+            border-color: #a855f7 !important;
+            transform: scale(1.08) !important;
+        }
+
+        /* Light Mode Adjustments for Bottom Controls Bar */
+        body.white nav.chat-buttons, body[data-theme="light"] nav.chat-buttons {
+            background: rgba(255, 255, 255, 0.85) !important;
+            border-color: rgba(199, 210, 254, 0.5) !important;
+            box-shadow: 0 4px 15px rgba(199, 210, 254, 0.3) !important;
+        }
+
+        body.white nav.chat-buttons select, body[data-theme="light"] nav.chat-buttons select {
+            background: rgba(245, 243, 255, 0.9) !important;
+            color: #4c1d95 !important;
+            border-color: rgba(199, 210, 254, 0.6) !important;
+        }
+
+        body.white nav.chat-buttons select option, body[data-theme="light"] nav.chat-buttons select option {
+            background: #ffffff !important;
+            color: #4c1d95 !important;
+        }
+
+        body.white nav.chat-buttons button, body[data-theme="light"] nav.chat-buttons button {
+            background: rgba(245, 243, 255, 0.9) !important;
+            color: #6d28d9 !important;
+            border-color: rgba(199, 210, 254, 0.6) !important;
+        }
+    </style>
+
+    <script src="../dist/js/framework.js?v=8.1.1" defer></script>
+    <script src="../dist/js/space-wallpaper.js" defer></script>
+    <script src="../dist/js/mcp-client.js?v=8.1.1" defer></script>
+    <script src="../dist/js/chat.v1.js?v=8.1.1" defer></script>
+    <script src="../dist/js/cake-baker.js?v=8.1.1" defer></script>
+    <script src="../dist/js/recorder.js" async></script>
+    <script src="../dist/js/highlight.min.js" async></script>
+    <script src="../dist/js/highlightjs-copy.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsencrypt/bin/jsencrypt.min.js" defer></script>
+    <script src="../dist/js/sanitize-html.js" async></script>
+    <script type="module" defer>
+        import { loadProviders, createClient, providerLocalStorage, captureUserTierHeaders, mergeToolCalls, Puter }  from "../dist/js/providers.js";
+        window.loadProviders = loadProviders;
+        window.createClient = createClient;
+        window.providerLocalStorage = providerLocalStorage;
+        window.captureUserTierHeaders = captureUserTierHeaders;
+        window.mergeToolCalls = mergeToolCalls;
+        window.Puter = Puter;
+    </script>
+    <script type="module" async>
+        import { convertModel, getModelTags, isValidModel } from 'https://g4f.dev/dist/js/model.js';
+        window.convertModel = convertModel;
+        window.getModelTags = getModelTags;
+        window.isValidModel = isValidModel;
+    </script>
+    <script>
+      window.MathJax = {
+        chtml: {
+          scale: 1,
+          displayAlign: 'left'
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        },
+      };
+    </script>
+    <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <script>
+      var tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    </script>
+
+    <template>
+      <script src="https://cdn.jsdelivr.net/npm/gpt-tokenizer/dist/o200k_base.js" async></script>
+    </template>
+    <script async>
+      if (localStorage.getItem("countTokens") !== "false") {
+        const template = document.head.querySelector('template');
+        if (template) {
+          document.head.appendChild(template.content);
+          template.remove();
+        }
+      }
+    </script>
+
+    <script type="module" src="../dist/js/photoswipe.js" async></script>
+
+    <script>
+      const user_image = '<img src="../dist/img/user_avatar.jpeg" alt="User avatar" />';
+      const gpt_image = '<img src="../dist/img/lumo.jpg" alt="LUMO avatar" style="border-radius: 50%; object-fit: cover;" />';
+      window.conversation_id = "";
+
+      // Reliable Sidebar Toggle, Access Enforcement, and LUMO Agent Name Enforcement
+      document.addEventListener("DOMContentLoaded", () => {
+          const urlParams = new URLSearchParams(window.location.search);
+          const savedRole = localStorage.getItem('lumo_role');
+          const isLoggedIn = !!(localStorage.getItem("g4f_session") || localStorage.getItem("lumo_session") || localStorage.getItem("user_token"));
+
+          // If logged in as Admin or User, strictly enforce their role-based chat channel and DO NOT allow Guest downgrade
+          if (isLoggedIn) {
+              if (savedRole === 'admin' && urlParams.get('role') !== 'admin') {
+                  window.history.replaceState(null, '', '?role=admin');
+              } else if (savedRole === 'user' && urlParams.get('role') !== 'user') {
+                  window.history.replaceState(null, '', '?role=user');
+              }
+          } else {
+              // Not logged in: check for guest mode, otherwise redirect to login.html
+              const isGuestMode = urlParams.get('mode') === 'guest' || savedRole === 'guest' || localStorage.getItem('lumo_guest') === 'true';
+              if (!isGuestMode) {
+                  window.location.href = '/login.html';
+                  return;
+              }
+          }
+
+          const toggleSidebar = (e) => {
+              if (e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+              }
+              const sidebar = document.querySelector('aside.sidebar');
+              const isClosed = document.body.classList.contains('sidebar-closed') || (sidebar && sidebar.classList.contains('closed'));
+              
+              if (isClosed) {
+                  document.body.classList.remove('sidebar-closed');
+                  if (sidebar) {
+                      sidebar.classList.remove('closed');
+                      sidebar.classList.remove('collapsed');
+                      sidebar.classList.remove('minimized');
+                      sidebar.classList.add('shown');
+                  }
+              } else {
+                  document.body.classList.add('sidebar-closed');
+                  if (sidebar) {
+                      sidebar.classList.add('closed');
+                      sidebar.classList.add('collapsed');
+                      sidebar.classList.remove('shown');
+                  }
+              }
+          };
+
+          // Ensure all login actions across the chat page consistently point to LUMO login page
+          const handleLumoLogin = (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const returnUrl = encodeURIComponent(window.location.href.split('#')[0]);
+              window.location.href = `/login.html?redirect=${returnUrl}`;
+          };
+
+          document.querySelectorAll('#sidebar-login-btn, #cloudSyncLoginBtn, a[href="#login"], a[href*="members"]').forEach(btn => {
+              btn.addEventListener('click', handleLumoLogin);
+          });
+
+          // Attach click listeners to all sidebar toggle buttons
+          document.querySelectorAll('.mobile-sidebar-toggle, .sidebar-header button').forEach(btn => {
+              btn.addEventListener('click', toggleSidebar);
+          });
+
+          // Sidebar Login/Logout toggle logic & Role Badge Display
+          const updateSidebarAuthUI = () => {
+              const userTierText = document.getElementById("user-tier-text");
+              const loginBtn = document.getElementById("sidebar-login-btn");
+              const logoutBtn = document.getElementById("sidebar-logout-btn");
+              const userEmail = localStorage.getItem("lumo_email");
+              const currentRole = localStorage.getItem("lumo_role");
+              const hasSession = !!(localStorage.getItem("g4f_session") || localStorage.getItem("lumo_session") || localStorage.getItem("user_token"));
+
+              if (currentRole === 'admin' || userEmail === 'admin@lumo.ai') {
+                  if (userTierText) {
+                      userTierText.innerHTML = `<i class="fa-solid fa-shield-halved" style="color: #c084fc;"></i> Admin (${userEmail || 'admin@lumo.ai'})`;
+                  }
+                  if (loginBtn) {
+                      loginBtn.classList.add("hidden");
+                      loginBtn.style.setProperty("display", "none", "important");
+                  }
+                  if (logoutBtn) {
+                      logoutBtn.classList.remove("hidden");
+                      logoutBtn.style.setProperty("display", "inline-flex", "important");
+                  }
+              } else if (currentRole === 'user' || userEmail === 'user1@lumo.ai' || (hasSession && currentRole !== 'guest')) {
+                  if (userTierText) {
+                      userTierText.innerHTML = `<i class="fa-solid fa-user-check" style="color: #60a5fa;"></i> User (${userEmail || 'user1@lumo.ai'})`;
+                  }
+                  if (loginBtn) {
+                      loginBtn.classList.add("hidden");
+                      loginBtn.style.setProperty("display", "none", "important");
+                  }
+                  if (logoutBtn) {
+                      logoutBtn.classList.remove("hidden");
+                      logoutBtn.style.setProperty("display", "inline-flex", "important");
+                  }
+              } else {
+                  if (userTierText) userTierText.innerHTML = `<i class="fa-solid fa-user-clock"></i> Guest Mode`;
+                  if (loginBtn) {
+                      loginBtn.classList.remove("hidden");
+                      loginBtn.style.setProperty("display", "inline-flex", "important");
+                  }
+                  if (logoutBtn) {
+                      logoutBtn.classList.add("hidden");
+                      logoutBtn.style.setProperty("display", "none", "important");
+                  }
+              }
+          };
+          updateSidebarAuthUI();
+          setInterval(updateSidebarAuthUI, 300);
+
+          const logoutBtn = document.getElementById("sidebar-logout-btn");
+          if (logoutBtn) {
+              logoutBtn.addEventListener("click", (e) => {
+                  e.preventDefault();
+                  localStorage.removeItem("g4f_session");
+                  localStorage.removeItem("lumo_session");
+                  localStorage.removeItem("lumo_role");
+                  localStorage.removeItem("lumo_email");
+                  localStorage.removeItem("lumo_guest");
+                  window.location.href = "/login.html";
+              });
+          }
+
+          // Item 4: Theme toggle (Light/Dark mode) logic
+          const themeToggleBtn = document.getElementById("themeToggle");
+          const themeIcon = document.getElementById("themeIcon");
+
+          const applyChatTheme = (theme) => {
+              if (theme === "light") {
+                  document.body.classList.add("white");
+                  document.body.setAttribute("data-theme", "light");
+                  if (themeIcon) themeIcon.className = "fa-solid fa-sun";
+                  localStorage.setItem("darkMode", "false");
+              } else {
+                  document.body.classList.remove("white");
+                  document.body.setAttribute("data-theme", "dark");
+                  if (themeIcon) themeIcon.className = "fa-solid fa-moon";
+                  localStorage.setItem("darkMode", "true");
+              }
+          };
+
+          const initialTheme = localStorage.getItem("darkMode") === "false" ? "light" : "dark";
+          applyChatTheme(initialTheme);
+
+          if (themeToggleBtn) {
+              themeToggleBtn.addEventListener("click", () => {
+                  const isLight = document.body.classList.contains("white") || document.body.getAttribute("data-theme") === "light";
+                  applyChatTheme(isLight ? "dark" : "light");
+              });
+          }
+
+          // Strict LUMO Branding Enforcement Engine across Chat Page
+          const enforceLumoName = () => {
+              // 1. Assistant Message Bubbles: Name & Avatar Labels
+              document.querySelectorAll('.chat-body .message, .chat-body .box, .chat-body .conversation').forEach(msg => {
+                  if (!msg.classList.contains('user')) {
+                      const nameElements = msg.querySelectorAll('.user-name, .sender-name, .model-name, .provider-name, .name, .designer, .author, .model, .role-name, .avatar-name, .bot-name');
+                      nameElements.forEach(el => {
+                          if (el && el.textContent.trim() !== 'LUMO') {
+                              el.textContent = 'LUMO';
+                          }
+                      });
+                      msg.querySelectorAll('img[alt*="GPT"], img[alt*="ChatGPT"], img[alt*="Bot"]').forEach(img => {
+                          img.setAttribute('alt', 'LUMO avatar');
+                          img.setAttribute('title', 'LUMO');
+                      });
+                  }
+              });
+
+              // 2. Chat Header Title
+              document.querySelectorAll('.convo-title, .chat-header-title, .header-title, .top-panel-title, #header-title').forEach(headerTitle => {
+                  if (headerTitle && (headerTitle.textContent.includes('ChatGPT') || headerTitle.textContent.includes('G4F') || headerTitle.textContent.includes('Ollama') || headerTitle.textContent.includes('Nemotron'))) {
+                      headerTitle.textContent = 'LUMO';
+                  }
+              });
+
+              // 3. Footer Model Selector Label
+              document.querySelectorAll('#model_label, .model-label, .selected-model, .model-name-label').forEach(label => {
+                  if (label && label.textContent.trim() !== 'LUMO Oracle') {
+                      label.textContent = 'LUMO Oracle';
+                  }
+              });
+          };
+
+          const observer = new MutationObserver(enforceLumoName);
+          observer.observe(document.body, { childList: true, subtree: true });
+          setInterval(enforceLumoName, 200);
+          enforceLumoName();
+      });
+    </script>
+
+    <link rel="preload" href="../dist/css/style.css?v=8.1.1" as="style">
+    <link rel="preload" href="../dist/js/chat.v1.js?v=8.1.1" as="script">
+</head>
+<body>
+    <script async>
+      if (localStorage.getItem("liquid") !== "false") {
+        document.body.classList.add("liquid");
+      }
+      if (localStorage.getItem("darkMode") === "false") {
+        document.body.classList.add("white");
+      }
+      if (localStorage.getItem("disableAnimations") !== "false") {
+        document.body.classList.add("no-animations");
+      }
+    </script>
+
+    <div class="media-overlay" aria-hidden="true"></div>
+    <div class="gradient" aria-hidden="true"></div>
+
+    <div class="container">
+        <a href="sr.html" class="hidden">Open Screen Reader Optimized Version</a>
+        <aside class="sidebar" aria-label="Primary sidebar navigation">
+            <div class="sidebar-container">
+                <header class="sidebar-header" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                    <h1 class="sidebar-logo" data-translate="true" style="display: flex; align-items: center; gap: 10px;">
+                        <img src="../dist/img/lumo.jpg" alt="LUMO Logo" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);" />
+                        <span>LUMO</span>
+                    </h1>
+                    <button class="mobile-sidebar-toggle sidebar-toggle-btn" title="Toggle Sidebar" style="width: 36px; height: 36px; min-width: 36px; border-radius: 50%;">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </header>
+                <div id="user-tier-info" class="user-tier-info" role="status" aria-label="User tier and usage info">
+                    <div class="tier-row">
+                        <div class="tier-badge">
+                            <i class="fa-solid fa-user" aria-hidden="true"></i>
+                            <span id="user-tier-text">Guest</span>
+                        </div>
+                        <a id="sidebar-login-btn" class="tier-auth-btn" href="/login.html" title="Login to LUMO Portal">
+                            <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+                            <span>Login</span>
+                        </a>
+                        <button id="sidebar-logout-btn" class="tier-auth-btn hidden" onclick="cloudSyncLogout()" title="Logout">
+                            <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                    <div class="tier-limits hidden" id="tier-limits-row">
+                        <span id="max-tokens-text" title="Tokens remaining/limit"><i class="fa-solid fa-coins" aria-hidden="true"></i> -</span>
+                        <span id="max-requests-text" title="Requests remaining/limit"><i class="fa-solid fa-list" aria-hidden="true"></i> -</span>
+                        <span id="cake-credits-text" title="Credits earned by baking proof-of-work cakes"><i class="fa-solid fa-cake-candles" aria-hidden="true"></i> -</span>
+                    </div>
+                </div>
+                <nav class="top" aria-label="Conversation actions">
+                    <button class="new_convo" onclick="new_conversation()" aria-label="Start a new conversation">
+                        <i class="fa-regular fa-plus" aria-hidden="true"></i>
+                        <span>New Conversation</span>
+                    </button>
+                    <button class="new_convo" onclick="new_conversation(true)" aria-label="Start a private conversation">
+                        <i class="fa-solid fa-user-secret" aria-hidden="true"></i>
+                        <span>Private Conversation</span>
+                    </button>
+                    <div id="box_conversations" class="conversations" role="region" aria-live="polite" aria-label="List of conversations"></div>
+                </nav>
+                <section class="bottom_buttons" aria-label="Settings navigation">
+                    <button onclick="open_settings();" aria-label="Open settings">
+                        <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                        <span>Open Settings</span>
+                    </button>
+                </section>
+            </div>
+        </aside>
+
+        <!-- Settings panel -->
+        <section class="settings hidden" aria-label="Application Settings" tabindex="-1">
+            <div class="paper">
+                <header class="settings-top-bar">
+                    <button class="settings-back-button" onclick="open_settings();" aria-label="Back to main interface">
+                        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                    </button>
+                     <h2>Settings</h2>
+                </header>
+                <nav class="settings-tabs" role="tablist" aria-label="Settings categories">
+                    <button class="settings-tab active" data-tab="general" role="tab" aria-selected="true" aria-controls="tab-general">
+                        <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+                        <span>General</span>
+                    </button>
+                    <button class="settings-tab" data-tab="appearance" role="tab" aria-selected="false" aria-controls="tab-appearance">
+                        <i class="fa-solid fa-palette" aria-hidden="true"></i>
+                        <span>Appearance</span>
+                    </button>
+                    <button class="settings-tab" data-tab="prompts" role="tab" aria-selected="false" aria-controls="tab-prompts">
+                        <i class="fa-solid fa-comment" aria-hidden="true"></i>
+                        <span>Prompts</span>
+                    </button>
+                    <button class="settings-tab" data-tab="providers" role="tab" aria-selected="false" aria-controls="tab-providers">
+                        <i class="fa-solid fa-server" aria-hidden="true"></i>
+                        <span>Providers</span>
+                    </button>
+                    <button class="settings-tab" data-tab="api" role="tab" aria-selected="false" aria-controls="tab-api">
+                        <i class="fa-solid fa-key" aria-hidden="true"></i>
+                        <span>Custom Provider</span>
+                    </button>
+                    <button class="settings-tab" data-tab="advanced" role="tab" aria-selected="false" aria-controls="tab-advanced">
+                        <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                        <span>Advanced</span>
+                    </button>
+                    <button class="settings-tab" data-tab="cloudsync" role="tab" aria-selected="false" aria-controls="tab-cloudsync">
+                        <i class="fa-solid fa-cloud" aria-hidden="true"></i>
+                        <span>Cloud Sync</span>
+                    </button>
+                </nav>
+                <div class="settings-content">
+                <form>
+                  <!-- General Tab -->
+                  <div class="settings-tab-content active" id="tab-general" role="tabpanel" aria-labelledby="tab-general">
+                  <div class="field">
+                      <span class="label">Render Markdown</span>
+                      <input type="checkbox" id="renderMarkdown" checked />
+                      <label for="renderMarkdown" class="toogle" title="Enable rendering of Markdown content"></label>
+                  </div>
+                  <div class="field">
+                      <span class="label">Simulate Typing</span>
+                      <input type="checkbox" id="simulateTyping" checked />
+                      <label for="simulateTyping" class="toogle" title="Enable simulated typing effect for responses"></label>
+                  </div>
+                  <div class="field">
+                      <span class="label">AI Features</span>
+                      <input type="checkbox" id="aiFeatures" />
+                      <label for="aiFeatures" class="toogle" title="Enable providing Follow Ups and Title Generation"></label>
+                  </div>
+                  <div class="field">
+                      <span class="label">Disable Conversation History</span>
+                      <input type="checkbox" id="history" />
+                      <label for="history" class="toogle" title="Improve response time or fix large conversation issues"></label>
+                  </div>
+                  <div class="field">
+                      <span class="label">Count Words and Tokens</span>
+                      <input type="checkbox" id="countTokens" checked />
+                      <label for="countTokens" class="toogle" title="Enable word and token counting"></label>
+                  </div>
+                  <div class="field">
+                      <span class="label">Download Generated Media</span>
+                      <input type="checkbox" id="download_media" checked/>
+                      <label for="download_media" class="toogle" title="Download and save generated images, audios, and videos"></label>
+                  </div>
+                  <div class="field">
+                      <span class="label">Hide Models with One Provider</span>
+                      <input type="checkbox" id="hideOneProviderModels" checked />
+                      <label for="hideOneProviderModels" class="toogle" title="Hide models that only have one provider (no backup)"></label>
+                  </div>
+                  <div class="field">
+                      <span class="label">Automatic Orientation (16:9 or 9:16)</span>
+                      <input type="checkbox" id="automaticOrientation" checked />
+                      <label for="automaticOrientation" class="toogle" title="Auto-orient generated media"></label>
+                  </div>
+                  <div class="field box">
+                      <label for="userInput-height" class="label" title="Set maximum height of input box">Input Max Height (px)</label>
+                      <input type="number" id="userInput-height" value="180" min="100" max="500" />
+                  </div>
+                  <div class="field box">
+                      <label for="recognition-language" class="label" title="Set preferred language for speech recognition">Speech Recognition Language</label>
+                      <input type="text" id="recognition-language" value="" placeholder="Default: navigator.language" />
+                  </div>
+                  <div class="field row box">
+                      <label for="voice" class="label" title="Select voice for text-to-speech synthesis">Synthesize Voice</label>
+                      <select id="voice">
+                          <option value="">Loading voices...</option>
+                      </select>
+                  </div>
+                  <div class="bottom_buttons">
+                      <button type="button" onclick="delete_conversations()" aria-label="Clear all conversations">
+                          <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                          <span>Clear Conversations</span>
+                      </button>
+                      <button type="button" onclick="save_storage()" aria-label="Export conversations">
+                          <i class="fa-solid fa-download" aria-hidden="true"></i>
+                          <span>Export Conversations</span>
+                      </button>
+                      <button type="button" onclick="save_storage(true)" aria-label="Export settings">
+                          <i class="fa-solid fa-pencil" aria-hidden="true"></i>
+                          <span>Export Settings</span>
+                      </button>
+                      <button type="button" onclick="this.querySelector('.fa-spin').classList.remove('hidden'); framework.translateAll().then(() => {window.location.reload()}).catch(() => {this.querySelector('.fa-spin').classList.add('hidden')})" aria-label="Translate user interface">
+                          <i class="fa-solid fa-language" aria-hidden="true"></i>
+                          <span>Translate UI</span>
+                          <i class="fas fa-spinner fa-spin hidden" aria-hidden="true"></i>
+                      </button>
+                      <button type="button" onclick="deleteTranslations() && window.location.reload()" aria-label="Delete translations">
+                          <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                          <span>Delete Translations</span>
+                      </button>
+                      <button id="showLog" type="button" aria-label="Show log" onclick="window.showLog()">
+                          <i class="fa-solid fa-terminal" aria-hidden="true"></i>
+                          <span>Show log</span>
+                      </button>
+                  </div>
+                  </div>
+
+                  <!-- Appearance Tab -->
+                  <div class="settings-tab-content" id="tab-appearance" role="tabpanel" aria-labelledby="tab-appearance">
+                  <div class="field">
+                      <span class="label">Enable Dark Mode</span>
+                      <input type="checkbox" id="darkMode" checked />
+                      <label for="darkMode" class="toogle" title="Toggle Dark Mode"></label>
+                  </div>
+                  <div class="field">
+                      <span class="label">Enable Model Search</span>
+                      <input type="checkbox" id="enableModelSearch" checked />
+                      <label for="enableModelSearch" class="toogle" title="Enable the model search overlay (pencil icon)"></label>
+                  </div>
+                  <div class="field" id="searchModelField" style="display: none; margin-left: 20px;">
+                      <span class="label">Search by Model</span>
+                      <input type="checkbox" id="searchByModel" checked />
+                      <label for="searchByModel" class="toogle" title="Enable searching for models by model name"></label>
+                  </div>
+                  <div class="field" id="searchProviderField" style="display: none; margin-left: 20px;">
+                      <span class="label">Search by Provider</span>
+                      <input type="checkbox" id="searchByProvider" />
+                      <label for="searchByProvider" class="toogle" title="Enable searching for models by provider name"></label>
+                  </div>
+                  <div class="field">
+                      <span class="label">Enable Liquid Mode</span>
+                      <input type="checkbox" id="liquid" checked />
+                      <label for="liquid" class="toogle" title="Toggle Liquid Mode"></label>
+                  </div>
+                  <div class="field">
+                      <span class="label">Disable Animations</span>
+                      <input type="checkbox" id="disableAnimations" checked />
+                      <label for="disableAnimations" class="toogle" title="Disable animations"></label>
+                  </div>
+                  <div class="field">
+                      <span class="label">Hide System Prompt</span>
+                      <input type="checkbox" id="hide-systemPrompt" />
+                      <label for="hide-systemPrompt" class="toogle" title="Hide system prompt for more space on phones"></label>
+                  </div>
+                  </div>
+
+                  <!-- Prompts Tab -->
+                  <div class="settings-tab-content" id="tab-prompts" role="tabpanel" aria-labelledby="tab-prompts">
+                  <div class="field row box">
+                      <label for="globalPrompt" class="label">Global System Prompt</label>
+                      <textarea id="globalPrompt" value="Render image URLs in Markdown format: `![](http://example/image.jpg)`
+Render audio URLs as HTML: &lt;audio controls src=&quot;http://example/audio.mp3&quot;&gt;&lt;/audio&gt;`" aria-describedby="globalPrompt-desc"></textarea>
+                      <small id="globalPrompt-desc" class="sr-only">Customize the AI's global prompt to personalize responses or enable features like image generation.</small>
+                  </div>
+                  <div class="field row box">
+                      <label for="systemPrompt" class="label">System Prompt Template</label>
+                      <textarea id="systemPrompt" placeholder="You are a helpful assistant." aria-describedby="systemPrompt-desc"></textarea>
+                      <small id="systemPrompt-desc" class="sr-only">Customize the AI's system prompt to personalize responses or enable features like image generation.</small>
+                  </div>
+                  </div>
+
+                  <!-- Providers Tab -->
+                  <div class="settings-tab-content" id="tab-providers" role="tabpanel" aria-labelledby="tab-providers">
+                  <!-- Provider API Keys section will be dynamically added here -->
+                  <div id="providers-api-keys-container"></div>
+                  <!-- Provider Enable/Disable section will be dynamically added here -->
+                  <div id="providers-toggle-container"></div>
+                  </div>
+
+                  <!-- API Keys Tab -->
+                  <div class="settings-tab-content" id="tab-api" role="tabpanel" aria-labelledby="tab-api">
+                  <div class="field box hidden row">
+                      <label for="Custom-api_base" class="label">Custom Provider Base URL</label>
+                      <input type="url" id="Custom-api_base" name="Custom[api_base]" placeholder="http://localhost:8080/v1" autocomplete="off" />
+                  </div>
+                  <div class="field box hidden row">
+                      <label for="Custom-api_key" class="label">Custom Provider API Key</label>
+                      <input type="text" id="Custom-api_key" name="Custom[api_key]" placeholder="API key" autocomplete="off" />
+                  </div>
+                  </div>
+
+                  <!-- Advanced Tab -->
+                  <div class="settings-tab-content" id="tab-advanced" role="tabpanel" aria-labelledby="tab-advanced">
+                  <div class="field">
+                      <span class="label">Log/Routing URL</span>
+                      <input type="checkbox" id="log_routing" />
+                      <label for="log_routing" class="toogle" title="Route all requests through local backend for logging"></label>
+                  </div>
+                  <div class="field hidden">
+                      <span class="label">Refine Files with spaCy</span>
+                      <input type="checkbox" id="refine" />
+                      <label for="refine" class="toogle" title="Enable file refinement with spaCy"></label>
+                  </div>
+                  <div class="field">
+                      <span class="label">Report Errors</span>
+                      <input type="checkbox" id="reportError" checked />
+                      <label for="reportError" class="toogle" title="Send error reports"></label>
+                  </div>
+                  <div class="field">
+                      <span class="label">Debug Mode</span>
+                      <input type="checkbox" id="debugMode" />
+                      <label for="debugMode" class="toogle" title="Enable debug mode"></label>
+                  </div>
+                  
+                  <!-- MCP Servers Section -->
+                  <div class="field mcp-section">
+                      <div class="mcp-header">
+                          <span class="label">MCP Servers</span>
+                          <button type="button" id="add-mcp-server-btn" aria-label="Add MCP Server" title="Add a new MCP server">
+                              <i class="fa-solid fa-plus"></i>
+                          </button>
+                      </div>
+                      <div id="mcp-servers-list" class="mcp-servers-list"></div>
+                  </div>
+
+                  <!-- MCP Tools Section -->
+                  <div class="field mcp-section">
+                      <div class="mcp-header">
+                          <span class="label">MCP Tools</span>
+                          <button type="button" id="refresh-mcp-tools-btn" aria-label="Refresh Tools" title="Refresh tools from MCP servers">
+                              <i class="fa-solid fa-sync"></i>
+                          </button>
+                      </div>
+                      <div id="mcp-tools-list" class="mcp-tools-list"></div>
+                  </div>
+
+                  <!-- PA Providers Section -->
+                  <div class="field mcp-section">
+                      <div class="mcp-header">
+                          <span class="label">PA Providers</span>
+                          <button type="button" id="refresh-pa-providers-btn" aria-label="Refresh PA Providers" title="Refresh PA providers from workspace">
+                              <i class="fa-solid fa-sync"></i>
+                          </button>
+                      </div>
+                      <div id="pa-providers-list" class="mcp-tools-list"></div>
+                  </div>
+                  </div>
+
+                  <!-- Cloud Sync Tab -->
+                  <div class="settings-tab-content" id="tab-cloudsync" role="tabpanel" aria-labelledby="tab-cloudsync">
+                      <div class="cloud-sync-login" id="cloudSyncLogin">
+                          <p style="margin-bottom: 1rem; color: var(--colour-3);">Login to sync your conversations across devices.</p>
+                          <button type="button" id="cloudSyncLoginBtn" class="cloud-sync-btn">
+                              <i class="fa-solid fa-right-to-bracket"></i>
+                              <span>Login to Members Area</span>
+                          </button>
+                      </div>
+                      <div class="cloud-sync-section" id="cloudSyncSection" style="display: none;">
+                          <div class="cloud-sync-user-info" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--blur-bg); border-radius: 8px;">
+                              <i class="fa-solid fa-user"></i>
+                              <span>Logged in as: </span>
+                              <strong id="cloudSyncUser"></strong>
+                          </div>
+                          <div class="cloud-sync-actions" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                              <button type="button" id="cloudSyncUpload" class="cloud-sync-btn">
+                                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                                  <span>Upload Conversations to Cloud</span>
+                              </button>
+                              <button type="button" id="cloudSyncDownload" class="cloud-sync-btn">
+                                  <i class="fa-solid fa-cloud-arrow-down"></i>
+                                  <span>Download Conversations from Cloud</span>
+                              </button>
+                              <button type="button" id="cloudSyncLogoutBtn" class="cloud-sync-btn logout">
+                                  <i class="fa-solid fa-right-from-bracket"></i>
+                                  <span>Logout</span>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+                </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Provider forms container -->
+        <section class="provider_forms hidden" aria-label="Provider forms">
+            <div class="bottom_buttons">
+                <button id="close_provider_forms" type="button" aria-label="Close provider forms">
+                    <i class="fa-regular fa-circle-xmark" aria-hidden="true"></i>
+                    <span>Close</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Main chat container -->
+        <main class="chat-container" role="main" aria-label="Chat conversation">
+            <header class="chat-top-panel">
+                <h2 class="convo-title" id="conversationTitle">LUMO</h2>
+                <div style="margin-left: auto; display: flex; align-items: center; gap: 10px; margin-right: 8px;">
+                    <span class="dev-credit-pill" style="font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 0.78rem; padding: 4px 12px; border-radius: 999px; background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.35); color: #a855f7; display: inline-flex; align-items: center; gap: 6px;"><i class="fa-solid fa-code"></i> By <strong>Charan Teja</strong></span>
+                    <span class="version-tag" style="font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 0.88rem; padding: 4px 14px; border-radius: 999px; background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.35); color: #a855f7; letter-spacing: 0.5px;">LUMO</span>
+                    <button class="icon-btn theme-toggle-btn" id="themeToggle" title="Toggle Light / Dark Mode" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.25s ease;">
+                        <i class="fa-solid fa-moon" id="themeIcon"></i>
+                    </button>
+                </div>
+                <button class="show_log hidden" onclick="showLog()" aria-label="Show log">
+                    <i class="fa-solid fa-terminal" aria-hidden="true"></i>
+                </button>
+                <script async>
+                if (localStorage.getItem("debugMode") === "true") {
+                    let button = document.querySelector('.chat-top-panel .show_log');
+                    if (button) {
+                        button.classList.remove('hidden');
+                    }
+                }
+                </script>
+            </header>
+
+            <label for="chatPrompt" class="sr-only">System prompt textarea</label>
+            <textarea id="chatPrompt" class="box" placeholder="System prompt" aria-multiline="true" rows="3"></textarea>
+
+            <button class="slide-header" aria-label="Collapse chat header">
+                <i class="fa-solid fa-angles-up" aria-hidden="true"></i>
+            </button>
+
+            <section class="chat-body" id="chatBody" tabindex="0" aria-live="polite" aria-label="Conversation content"></section>
+
+            <footer class="chat-footer">
+                <div class="chat-toolbar" role="region" aria-label="Chat controls">
+                    <div id="input-count" class="">
+                        <button class="hide-input" aria-label="Hide input">
+                            <i class="fa-solid fa-angles-down" aria-hidden="true"></i>
+                        </button>
+                        <label for="agree" class="text" onclick="this.innerText='';"></label>
+                    </div>
+                    <div class="stop_generating stop_generating-hidden" role="region" aria-live="assertive">
+                        <button id="cancelButton" aria-label="Stop generating response">
+                            <span>Stop Generating</span>
+                            <i class="fa-solid fa-stop" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="regenerate" role="region" aria-live="polite">
+                        <button id="regenerateButton" aria-label="Regenerate last response">
+                            <span>Regenerate</span>
+                            <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="media-player" aria-hidden="true">
+                    <i class="fa-regular fa-x" aria-hidden="true"></i>
+                </div>
+
+                <div class="media-select hidden" aria-label="Media input options" role="group">
+                    <label class="image-select" for="image" title="Select image file">
+                        <input
+                          type="file"
+                          id="image"
+                          name="image"
+                          accept="image/*"
+                          required
+                          aria-label="Select an image file"
+                        />
+                        <i class="fa-regular fa-image" aria-hidden="true"></i>
+                    </label>
+                    <label class="capture-camera" for="camera" title="Capture photo using camera">
+                        <input
+                          type="file"
+                          id="camera"
+                          name="camera"
+                          accept="image/*"
+                          capture="camera"
+                          required
+                          aria-label="Capture a photo using camera"
+                        />
+                        <i class="fa-solid fa-camera" aria-hidden="true"></i>
+                    </label>
+                    <label class="capture-audio" for="audio" title="Record audio">
+                        <small class="sr-only">Record audio message</small>
+                        <i class="fa-solid fa-microphone" aria-hidden="true"></i>
+                    </label>
+                    <label class="add-link" for="link" title="Add link">
+                        <i class="fa-solid fa-link" aria-hidden="true"></i>
+                    </label>
+                    <button class="close" type="button" aria-label="Close media selector">
+                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <section class="user-input" role="region" aria-label="User input area">
+                    <div class="input-area">
+                        <a id="download" aria-hidden="true"></a><!-- Download Button -->
+
+                        <label for="userInput" class="sr-only">Type your message</label>
+                        <textarea
+                          id="userInput"
+                          class="box"
+                          placeholder="Type a message..."
+                          cols="30"
+                          rows="4"
+                          style="white-space: pre-wrap;resize: none;"
+                          autocomplete="off"
+                        ></textarea>
+
+                        <label class="file-label image-label" aria-label="USB device icon for uploads">
+                            <i class="fa-brands fa-usb" aria-hidden="true"></i>
+                        </label>
+
+                        <label class="file-label" for="file" aria-label="Attach one or multiple files">
+                            <input
+                              type="file"
+                              id="file"
+                              name="file"
+                              accept="*/*"
+                              multiple
+                              required
+                              aria-describedby="fileHelp"
+                            />
+                            <i class="fa-solid fa-paperclip" aria-hidden="true"></i>
+                        </label>
+                        <small id="fileHelp" class="sr-only">Upload files to send with your message.</small>
+
+                        <label class="micro-label" for="micro" aria-label="Microphone toggle">
+                            <small class="sr-only">Toggle microphone for audio input.</small>
+                            <i class="fa-solid fa-microphone-slash" aria-hidden="true"></i>
+                        </label>
+
+                        <button class="code" title="Insert code block" type="button" aria-label="Insert code block">
+                            <i class="fa-solid fa-code" aria-hidden="true"></i>
+                        </button>
+
+                        <div class="send-buttons" role="group" aria-label="Send message buttons">
+                            <button id="addButton" aria-label="Add message" type="button">
+                                <i class="fa-solid fa-square-plus" aria-hidden="true"></i>
+                                <span>Add</span>
+                            </button>
+
+                            <button id="sendButton" aria-label="Send message" type="submit">
+                                <i class="fa-regular fa-paper-plane" aria-hidden="true"></i>
+                                <span>Send</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <nav class="chat-buttons" role="navigation" aria-label="Chat options">
+                    <div class="field">
+                        <button id="search" aria-label="Enable web search">
+                            <small class="sr-only">Enable web search</small>
+                            <i class="fa-solid fa-search" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="field">
+                        <label for="model" class="sr-only">Select AI Model</label>
+                        <select name="model" id="model" aria-describedby="modelHelp">
+                            <option value="" selected>Model: Default</option>
+                        </select>
+                        <small id="modelHelp" class="sr-only">Select AI model to use for conversations.</small>
+
+                        <div class="model-selector hidden" role="region" aria-label="Model search and suggestions">
+                            <div id="model-suggestions" class="suggestions-dropdown" aria-live="polite"></div>
+                            <input
+                              type="text"
+                              id="model-search"
+                              placeholder="Search models (e.g. 'gpt-4', 'claude')..."
+                              autocomplete="off"
+                              autocapitalize="off"
+                              autocorrect="off"
+                              spellcheck="false"
+                              aria-label="Search models"
+                            />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <button id="model_edit" type="button" aria-label="Edit model settings">
+                            <i class="fa-solid fa-edit" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="field">
+                        <label for="provider" class="sr-only">Select Provider</label>
+                        <select name="provider" id="provider" aria-describedby="providerHelp">
+                            <option value="AnyProvider">Provider: Auto</option>
+                        </select>
+                        <small id="providerHelp" class="sr-only">Select AI provider for conversations.</small>
+                    </div>
+                    <div class="field">
+                        <button id="pin" type="button" aria-label="Pin conversation">
+                            <i class="fa-solid fa-thumbtack" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div id="pin_container" class="field" aria-live="polite"></div>
+                </nav>
+            </footer>
+        </main>
+
+        <!-- Logs -->
+        <section class="log hidden" aria-label="Application logs" tabindex="-1">
+            <header class="log-top-bar">
+                <button class="log-back-button" onclick="window.hideLog();" aria-label="Back to settings">
+                    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                </button>
+                <h2>Logs</h2>
+            </header>
+            <div class="log-content" role="region" aria-live="polite"></div>
+        </section>
+
+        <!-- Highlight.js iframe container-->
+        <div class="hljs-iframe-container hidden" aria-hidden="true">
+            <iframe class="hljs-iframe" title="Code syntax preview"></iframe>
+        </div>
+    </div>
+</body>
+</html>
