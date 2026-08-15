@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 """
-Entry point for LUMO FastAPI Assistant executable builds
+Entry point for g4f CLI executable builds
+This file is used as the main entry point for building executables with Nuitka
 """
-import os
-import uvicorn
+
+import g4f.debug
+
+g4f.debug.enable_logging()
+
+import g4f.cli
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))
-    uvicorn.run("main:app", host="0.0.0.0", port=port)
+    g4f.cli.main()

@@ -18,30 +18,10 @@ def redirect_home():
 
 
 def render(filename="home", download_url: str = GITHUB_URL):
-    if filename in ("index", "index.html", "", None):
-        filename = "home"
     if download_url == GITHUB_URL:
         filename += "" if "." in filename else ".html"
     html = None
     is_temp = False
-
-    # Check local g4f.dev directory first
-    g4f_dev_dir = os.path.abspath("./g4f.dev")
-    local_path = os.path.abspath(os.path.join(g4f_dev_dir, filename))
-    
-    if os.path.exists(local_path) and os.path.isfile(local_path):
-        if local_path.endswith(".html"):
-            try:
-                latest_version = version.utils.latest_version
-            except VersionNotFoundError:
-                latest_version = version.utils.current_version
-            with open(local_path, "r", encoding="utf-8") as f:
-                html = f.read()
-            return html.replace("{{ v }}", str(latest_version))
-        return send_from_directory(
-            os.path.dirname(local_path), os.path.basename(local_path), max_age=31536000
-        )
-
     if os.path.exists(DIST_DIR) and not request.args.get("debug"):
         base_dir = os.path.abspath(os.path.dirname(DIST_DIR))
         path = os.path.abspath(os.path.join(base_dir, filename))

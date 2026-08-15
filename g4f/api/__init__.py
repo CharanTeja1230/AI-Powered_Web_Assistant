@@ -714,15 +714,11 @@ class Api:
             )
 
     def register_routes(self):
-        @self.app.get("/", response_class=HTMLResponse)
-        @self.app.get("/home.html", response_class=HTMLResponse)
-        @self.app.get("/index.html", response_class=HTMLResponse)
-        async def read_root():
-            g4f_home = os.path.abspath("./g4f.dev/home.html")
-            if os.path.isfile(g4f_home):
-                with open(g4f_home, "r", encoding="utf-8") as f:
-                    return HTMLResponse(content=f.read())
-            return RedirectResponse("/chat/", status_code=302)
+        if not AppConfig.gui:
+
+            @self.app.get("/")
+            async def read_root():
+                return RedirectResponse("/v1", 302)
 
         @self.app.get("/v1")
         async def read_root_v1():

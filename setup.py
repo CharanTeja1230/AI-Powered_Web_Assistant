@@ -123,7 +123,9 @@ setup(
     extras_require=EXTRA_REQUIRE,
     entry_points={
         "console_scripts": [
-            "lumo=main:home",
+            "g4f=g4f.cli:main",
+            "g4f-mcp=g4f.mcp.server:main",
+            "g4f-tray=g4f.tray:_tray_main",
         ],
     },
     url="https://github.com/xtekky/gpt4free",  # Link to your GitHub repository

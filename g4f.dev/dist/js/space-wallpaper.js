@@ -312,81 +312,154 @@
 
         function drawAstronaut() {
             astronaut.floatTime += 0.015;
-            astronaut.x += Math.cos(astronaut.floatTime * 0.5) * 0.3;
-            astronaut.y += Math.sin(astronaut.floatTime) * 0.4;
-            astronaut.angle = Math.sin(astronaut.floatTime * 0.3) * 0.08;
+            astronaut.x += Math.cos(astronaut.floatTime * 0.5) * 0.35;
+            astronaut.y += Math.sin(astronaut.floatTime) * 0.45;
+            astronaut.angle = Math.sin(astronaut.floatTime * 0.3) * 0.09;
 
             ctx.save();
             ctx.translate(astronaut.x, astronaut.y);
             ctx.rotate(astronaut.angle);
-            ctx.scale(0.85, 0.85);
+            ctx.scale(0.95, 0.95);
 
-            const strokeStyle = isDark ? '#ffffff' : '#6d28d9';
-            const visorGlow = isDark ? '#00f3ff' : '#a855f7';
+            const primaryColor = isDark ? '#f8fafc' : '#4c1d95';
+            const accentColor = isDark ? '#00f3ff' : '#a855f7';
+            const magentaColor = isDark ? '#ff007f' : '#3b82f6';
 
-            ctx.strokeStyle = strokeStyle;
-            ctx.lineWidth = 2.2;
+            ctx.strokeStyle = primaryColor;
+            ctx.lineWidth = 2.4;
             ctx.lineJoin = 'round';
             ctx.lineCap = 'round';
 
-            // Backpack
-            ctx.strokeRect(-22, -18, 12, 34);
-
-            // Suit Helmet
+            // 1. Oxygen Life Support Backpack with thruster lights
+            ctx.fillStyle = isDark ? 'rgba(30, 27, 75, 0.8)' : 'rgba(237, 233, 254, 0.8)';
             ctx.beginPath();
-            ctx.arc(0, -14, 16, 0, Math.PI * 2);
-            ctx.stroke();
-
-            // Visor
-            ctx.fillStyle = visorGlow;
-            ctx.shadowBlur = isDark ? 10 : 3;
-            ctx.shadowColor = visorGlow;
-            ctx.beginPath();
-            ctx.ellipse(3, -14, 9, 6, 0, 0, Math.PI * 2);
+            ctx.roundRect(-26, -22, 16, 42, 6);
             ctx.fill();
-            ctx.shadowBlur = 0;
-
-            // Torso
-            ctx.beginPath();
-            ctx.roundRect(-12, 2, 24, 28, 6);
             ctx.stroke();
 
-            // Chest control panel lines
-            ctx.strokeStyle = isDark ? '#ff007f' : '#3b82f6';
+            // Thruster LEDs
+            ctx.fillStyle = magentaColor;
             ctx.beginPath();
-            ctx.moveTo(-5, 10);
-            ctx.lineTo(5, 10);
-            ctx.moveTo(-5, 16);
-            ctx.lineTo(2, 16);
-            ctx.stroke();
-            ctx.strokeStyle = strokeStyle;
+            ctx.arc(-22, -15, 2, 0, Math.PI * 2);
+            ctx.arc(-22, 15, 2, 0, Math.PI * 2);
+            ctx.fill();
 
-            // Left Arm (Floating back)
+            // 2. Floating Life Line / Tether Cable
+            ctx.strokeStyle = isDark ? 'rgba(0, 243, 255, 0.4)' : 'rgba(168, 85, 247, 0.4)';
+            ctx.lineWidth = 1.5;
             ctx.beginPath();
-            ctx.moveTo(-12, 6);
-            ctx.lineTo(-24, 16);
-            ctx.lineTo(-20, 26);
+            ctx.moveTo(-26, 0);
+            ctx.bezierCurveTo(-50, -10, -70, 20, -95, 5);
             ctx.stroke();
+            ctx.strokeStyle = primaryColor;
+            ctx.lineWidth = 2.4;
 
-            // Right Arm (Reaching forward)
+            // 3. Helmet & Visor Shell
+            ctx.fillStyle = isDark ? '#090d16' : '#ffffff';
             ctx.beginPath();
-            ctx.moveTo(12, 6);
-            ctx.lineTo(26, -2);
-            ctx.lineTo(34, 6);
-            ctx.stroke();
-
-            // Legs
-            ctx.beginPath();
-            ctx.moveTo(-7, 30);
-            ctx.lineTo(-14, 48);
-            ctx.lineTo(-20, 52);
+            ctx.arc(0, -16, 18, 0, Math.PI * 2);
+            ctx.fill();
             ctx.stroke();
 
+            // Helmet Outer Shadow Ring
+            ctx.strokeStyle = isDark ? 'rgba(0, 243, 255, 0.3)' : 'rgba(124, 58, 237, 0.3)';
             ctx.beginPath();
-            ctx.moveTo(7, 30);
-            ctx.lineTo(12, 46);
-            ctx.lineTo(18, 52);
+            ctx.arc(0, -16, 21, -0.5, Math.PI * 0.8);
             ctx.stroke();
+            ctx.strokeStyle = primaryColor;
+
+            // Dual-Layer Visor Reflection
+            ctx.save();
+            const visorGrad = ctx.createLinearGradient(-10, -22, 12, -10);
+            if (isDark) {
+                visorGrad.addColorStop(0, '#00f3ff');
+                visorGrad.addColorStop(0.5, '#a855f7');
+                visorGrad.addColorStop(1, '#ff007f');
+            } else {
+                visorGrad.addColorStop(0, '#c7d2fe');
+                visorGrad.addColorStop(0.6, '#a855f7');
+                visorGrad.addColorStop(1, '#7c3aed');
+            }
+            ctx.fillStyle = visorGrad;
+            ctx.shadowBlur = isDark ? 14 : 4;
+            ctx.shadowColor = accentColor;
+            ctx.beginPath();
+            ctx.ellipse(3, -16, 11, 7.5, 0.1, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            // Visor Glass Specular Highlight
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.beginPath();
+            ctx.ellipse(-1, -19, 3.5, 1.8, -0.4, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 4. Suit Torso / Chest Armor
+            ctx.fillStyle = isDark ? '#0f172a' : '#f8fafc';
+            ctx.beginPath();
+            ctx.roundRect(-14, 2, 28, 30, 8);
+            ctx.fill();
+            ctx.stroke();
+
+            // Chest Telemetry Display Panel
+            ctx.fillStyle = isDark ? 'rgba(0, 243, 255, 0.15)' : 'rgba(168, 85, 247, 0.15)';
+            ctx.fillRect(-8, 8, 16, 12);
+            ctx.strokeRect(-8, 8, 16, 12);
+
+            // Status Indicator Lights
+            ctx.fillStyle = isDark ? '#00f3ff' : '#7c3aed';
+            ctx.fillRect(-5, 11, 4, 3);
+            ctx.fillStyle = magentaColor;
+            ctx.fillRect(1, 11, 4, 3);
+
+            // Shoulder Badges
+            ctx.fillStyle = accentColor;
+            ctx.beginPath();
+            ctx.arc(-14, 6, 3, 0, Math.PI * 2);
+            ctx.arc(14, 6, 3, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 5. Left Arm (Floating back)
+            ctx.beginPath();
+            ctx.moveTo(-14, 8);
+            ctx.lineTo(-28, 18);
+            ctx.lineTo(-24, 28);
+            ctx.stroke();
+            // Glove
+            ctx.fillStyle = accentColor;
+            ctx.beginPath();
+            ctx.arc(-24, 29, 3.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 6. Right Arm (Reaching forward towards stars)
+            ctx.beginPath();
+            ctx.moveTo(14, 8);
+            ctx.lineTo(28, -1);
+            ctx.lineTo(38, 7);
+            ctx.stroke();
+            // Glove
+            ctx.fillStyle = accentColor;
+            ctx.beginPath();
+            ctx.arc(39, 8, 3.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 7. Boots & Legs
+            ctx.beginPath();
+            ctx.moveTo(-8, 32);
+            ctx.lineTo(-15, 50);
+            ctx.lineTo(-22, 55);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(8, 32);
+            ctx.lineTo(14, 48);
+            ctx.lineTo(20, 55);
+            ctx.stroke();
+
+            // Boot Soles
+            ctx.fillStyle = isDark ? '#334155' : '#c7d2fe';
+            ctx.fillRect(-24, 53, 7, 3);
+            ctx.fillRect(18, 53, 7, 3);
 
             ctx.restore();
         }

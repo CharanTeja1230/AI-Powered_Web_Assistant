@@ -217,13 +217,7 @@ def run_tray(
     if not no_autostart:
         _start_server()
 
-    try:
-        tray_icon.run()
-    except Exception as e:
-        logger.warning(f"System tray GUI unavailable (headless mode: {e})")
-        if not _server_running:
-            from g4f.api import run_api
-            run_api(host=_host, port=_port, debug=_debug)
+    tray_icon.run()
 
 
 def _tray_main():

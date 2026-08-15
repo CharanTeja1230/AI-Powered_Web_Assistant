@@ -18,4 +18,4 @@ dependencies = [
 ]
 
 [tool.fastapi]
-entrypoint = "main:app"
+entrypoint = "g4f.api:create_app"
