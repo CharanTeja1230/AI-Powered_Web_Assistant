@@ -528,6 +528,110 @@
         }
 
         /* -------------------------------------------------------------
+           TRULY DEEP DARK MODE FOR CHAT PAGE (DARK BY DEFAULT)
+        ------------------------------------------------------------- */
+        body:not(.white),
+        body[data-theme="dark"],
+        body:not(.white) .container,
+        body[data-theme="dark"] .container,
+        body:not(.white) .chat-container,
+        body[data-theme="dark"] .chat-container,
+        body:not(.white) main.chat-container,
+        body[data-theme="dark"] main.chat-container,
+        body:not(.white) .conversation,
+        body[data-theme="dark"] .conversation,
+        body:not(.white) .chat-body,
+        body[data-theme="dark"] .chat-body {
+            background: #040408 !important;
+            background-color: #040408 !important;
+            color: #f8fafc !important;
+        }
+
+        /* Dark Mode Assistant Message Bubbles */
+        body:not(.white) .chat-body .message:not(.user),
+        body[data-theme="dark"] .chat-body .message:not(.user),
+        body:not(.white) .message:not(.user),
+        body[data-theme="dark"] .message:not(.user) {
+            background: rgba(18, 14, 42, 0.92) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6) !important;
+            backdrop-filter: blur(20px) !important;
+        }
+
+        body:not(.white) .chat-body .message:not(.user) *,
+        body[data-theme="dark"] .chat-body .message:not(.user) *,
+        body:not(.white) .message:not(.user) *,
+        body[data-theme="dark"] .message:not(.user) * {
+            color: #ffffff !important;
+        }
+
+        /* Dark Mode User Messages */
+        body:not(.white) .chat-body .message.user,
+        body[data-theme="dark"] .chat-body .message.user,
+        body:not(.white) .message.user,
+        body[data-theme="dark"] .message.user {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.5) 0%, rgba(37, 99, 235, 0.5) 100%) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(168, 85, 247, 0.5) !important;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6) !important;
+        }
+
+        body:not(.white) .chat-body .message.user *,
+        body[data-theme="dark"] .chat-body .message.user *,
+        body:not(.white) .message.user *,
+        body[data-theme="dark"] .message.user * {
+            color: #ffffff !important;
+        }
+
+        /* Dark Mode Suggested Prompt Chips */
+        body:not(.white) .field button,
+        body[data-theme="dark"] .field button,
+        body:not(.white) .prompt-chip,
+        body[data-theme="dark"] .prompt-chip {
+            background: rgba(28, 22, 65, 0.9) !important;
+            color: #c084fc !important;
+            border: 1px solid rgba(168, 85, 247, 0.35) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        body:not(.white) .field button:hover,
+        body[data-theme="dark"] .field button:hover {
+            background: rgba(168, 85, 247, 0.35) !important;
+            color: #ffffff !important;
+            border-color: #a855f7 !important;
+        }
+
+        /* Dark Mode Top Header Bar */
+        body:not(.white) header.chat-top-panel,
+        body[data-theme="dark"] header.chat-top-panel {
+            background: rgba(10, 8, 25, 0.92) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        body:not(.white) .convo-title,
+        body[data-theme="dark"] .convo-title {
+            color: #ffffff !important;
+        }
+
+        /* Dark Mode Input Dock */
+        body:not(.white) .user-input,
+        body[data-theme="dark"] .user-input {
+            background: rgba(12, 9, 32, 0.95) !important;
+            border: 1px solid rgba(255, 255, 255, 0.18) !important;
+            box-shadow: 0 14px 45px rgba(0, 0, 0, 0.6) !important;
+        }
+
+        body:not(.white) textarea#userInput,
+        body[data-theme="dark"] textarea#userInput {
+            color: #ffffff !important;
+        }
+        body:not(.white) textarea#userInput::placeholder,
+        body[data-theme="dark"] textarea#userInput::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        /* -------------------------------------------------------------
            LUMO LIGHT MODE PALETTE (ALL-LIGHT PASTEL COLORS)
         ------------------------------------------------------------- */
         body.white, 
@@ -1072,6 +1176,10 @@
       }
       if (localStorage.getItem("darkMode") === "false") {
         document.body.classList.add("white");
+        document.body.setAttribute("data-theme", "light");
+      } else {
+        document.body.classList.remove("white");
+        document.body.setAttribute("data-theme", "dark");
       }
       if (localStorage.getItem("disableAnimations") !== "false") {
         document.body.classList.add("no-animations");
