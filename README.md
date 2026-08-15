@@ -56,7 +56,7 @@ LUMO is configured out-of-the-box for seamless one-click web service deployment 
 4. Configure service build settings:
    - **Environment**: `Python 3`
    - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `python -m g4f --port $PORT`
+   - **Start Command**: `python -m lumo --port $PORT`
 5. Click **Create Web Service**. Your application will be live instantly on Render!
 
 ### 2. Local Environment Setup
@@ -72,7 +72,7 @@ cd AI-Powered_Web_Assistant
 pip install -r requirements.txt
 
 # 3. Launch local server
-python -m g4f --port 8080
+python -m lumo --port 8080
 ```
 
 Access the local server at:
