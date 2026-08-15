@@ -1,13 +1,23 @@
 # 🪐 LUMO – AI Chat Interface
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-https%3A%2F%2Flumo--ai--assistant.onrender.com-00f3ff.svg?style=for-the-badge&logo=render)](https://lumo-ai-assistant.onrender.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
-[![Deployment: Render](https://img.shields.io/badge/Deploy-Render-00f3ff.svg)](https://render.com)
 [![Maintainer: Charan](https://img.shields.io/badge/Maintainer-Charan-a855f7.svg)](#credits)
 
 <p align="center">
   <strong style="font-size: 1.4rem;">Designed, Developed & Maintained by Charan</strong><br>
-  <em>Freelance Web Developer & AI/ML Enthusiast | Hyderabad, Telangana, India</em>
+  <em>Freelance Web Developer & AI/ML Enthusiast | Hyderabad, Telangana, India</em><br>
+  🚀 <strong>Live Production Deployment</strong>: <a href="https://lumo-ai-assistant.onrender.com" target="_blank">https://lumo-ai-assistant.onrender.com</a>
 </p>
+
+---
+
+## 🌐 Live Production Application
+
+- 🌐 **Live Website**: [https://lumo-ai-assistant.onrender.com](https://lumo-ai-assistant.onrender.com)
+- 💬 **Live Chat Interface**: [https://lumo-ai-assistant.onrender.com/chat/](https://lumo-ai-assistant.onrender.com/chat/)
+- 🔑 **Login Portal**: [https://lumo-ai-assistant.onrender.com/login.html](https://lumo-ai-assistant.onrender.com/login.html)
+- 🛡️ **Admin Console**: [https://lumo-ai-assistant.onrender.com/admin-dashboard.html](https://lumo-ai-assistant.onrender.com/admin-dashboard.html)
 
 ---
 

@@ -6,8 +6,9 @@ build-backend = "setuptools.build_meta"
 name = "lumo-oracle-platform"
 version = "1.0.0"
 description = "LUMO - AI Chat Assistant by Charan"
-authors = [{ name = "Charan", email = "charan.teja@lumo.ai" }]
 readme = "README.md"
+authors = [{ name = "Charan", email = "charan.teja@lumo.ai" }]
+urls = { Homepage = "https://lumo-ai-assistant.onrender.com" }
 requires-python = ">=3.9"
 dependencies = [
     "fastapi",
