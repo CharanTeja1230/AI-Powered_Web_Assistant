@@ -5,17 +5,18 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "lumo-oracle-platform"
 version = "1.0.0"
-description = "LUMO - Learning Unified Multimodal Oracle Platform"
-authors = [{ name = "Charan Teja", email = "charan.teja@lumo.ai" }]
+description = "LUMO - AI Chat Assistant by Charan"
+authors = [{ name = "Charan", email = "charan.teja@lumo.ai" }]
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
-    "requests",
-    "aiohttp",
     "fastapi",
     "uvicorn",
-    "flask"
+    "g4f",
+    "requests",
+    "aiohttp",
+    "jinja2"
 ]
 
 [tool.fastapi]
-entrypoint = "g4f.api:create_app"
+entrypoint = "main:app"
