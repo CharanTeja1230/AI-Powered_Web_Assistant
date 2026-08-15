@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong style="font-size: 1.4rem;">Designed, Developed & Maintained by Charan</strong><br>
-  <em>Freelance Web Developer & AI/ML Enthusiast | Hyderabad, Telangana, India</em><br>
+  <em>Creative developer, AI Engineer & Software Engineer | Hyderabad, Telangana, India</em><br>
   🚀 <strong>Live Production Deployment</strong>: <a href="https://lumo-ai-assistant.onrender.com" target="_blank">https://lumo-ai-assistant.onrender.com</a>
 </p>
 
@@ -104,7 +104,7 @@ docker run -p 8080:8080 lumo-ai-assistant
 ## 👨‍💻 Credits & Project Ownership
 
 - **Lead Developer & Maintainer**: **Charan**
-- **Role**: Freelance Web Developer & AI/ML Enthusiast
+- **Role**: Creative developer, AI Engineer & Software Engineer
 - **Location**: Hyderabad, Telangana, India
 - **Project**: LUMO – AI Chat Interface
 - **Repository**: [https://github.com/CharanTeja1230/AI-Powered_Web_Assistant.git](https://github.com/CharanTeja1230/AI-Powered_Web_Assistant.git)

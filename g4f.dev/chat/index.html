@@ -978,7 +978,7 @@
           const savedRole = localStorage.getItem('lumo_role');
           const isLoggedIn = !!(localStorage.getItem("g4f_session") || localStorage.getItem("lumo_session") || localStorage.getItem("user_token"));
 
-          // If logged in as Admin or User, strictly enforce their role-based chat channel and DO NOT allow Guest downgrade
+          // MANDATORY LOGIN ENFORCEMENT: Guest mode completely removed. Login required.
           if (isLoggedIn) {
               if (savedRole === 'admin' && urlParams.get('role') !== 'admin') {
                   window.history.replaceState(null, '', '?role=admin');
@@ -986,12 +986,9 @@
                   window.history.replaceState(null, '', '?role=user');
               }
           } else {
-              // Not logged in: check for guest mode, otherwise redirect to login.html
-              const isGuestMode = urlParams.get('mode') === 'guest' || savedRole === 'guest' || localStorage.getItem('lumo_guest') === 'true';
-              if (!isGuestMode) {
-                  window.location.href = '/login.html';
-                  return;
-              }
+              // Unauthenticated access prohibited: Redirect to login.html
+              window.location.href = '/login.html';
+              return;
           }
 
           const toggleSidebar = (e) => {
