@@ -27,7 +27,7 @@
     <link rel="canonical" href="https://g4f.dev/chat/" />
 
     <link rel="stylesheet" href="../dist/css/style.css?v=8.1.1" />
-    <link rel="stylesheet" href="../dist/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="../dist/css/dracula.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe/dist/photoswipe.css" />
 
@@ -779,172 +779,15 @@
             color: #0f172a !important;
         }
 
-        /* -------------------------------------------------------------
-           LUMO CHAT COMPREHENSIVE UI/UX FIX & GLASS OVERHAUL
-        ------------------------------------------------------------- */
-        /* 1. Hide floating unstyled legacy textboxes & buttons */
-        textarea#chatPrompt,
-        .slide-header,
-        .hidden,
-        input[type="file"],
-        .sr-only,
-        .hide-input {
+        /* Hide leftover version popups, GitHub, or Docs links */
+        .new_version, 
+        a[href*="github.com"], 
+        a[href*="g4f.dev/docs"],
+        a[href*="playground"] {
             display: none !important;
-        }
-
-        /* Keep labels clickably styled without displaying raw native file input text */
-        label.file-label input[type="file"],
-        label.image-select input[type="file"],
-        label.capture-camera input[type="file"] {
-            width: 0.1px !important;
-            height: 0.1px !important;
+            visibility: hidden !important;
             opacity: 0 !important;
-            overflow: hidden !important;
-            position: absolute !important;
-            z-index: -1 !important;
-        }
-
-        /* 2. Top Navigation Bar */
-        header.chat-top-panel {
-            height: 64px !important;
-            min-height: 64px !important;
-            padding: 0 24px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: space-between !important;
-            background: rgba(15, 12, 41, 0.82) !important;
-            backdrop-filter: blur(24px) !important;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
-        }
-
-        /* 3. Sleek Floating Action Buttons (Regenerate / Stop Generating) */
-        .chat-toolbar {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 12px !important;
-            margin-bottom: 10px !important;
-        }
-
-        .stop_generating button,
-        .regenerate button {
-            background: rgba(255, 255, 255, 0.12) !important;
-            backdrop-filter: blur(16px) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            color: #ffffff !important;
-            font-family: 'Inter', sans-serif !important;
-            font-size: 0.85rem !important;
-            font-weight: 600 !important;
-            padding: 8px 18px !important;
-            border-radius: 999px !important;
-            cursor: pointer !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
-            transition: all 0.25s ease !important;
-        }
-
-        .stop_generating button:hover,
-        .regenerate button:hover {
-            background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%) !important;
-            border-color: #a855f7 !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4) !important;
-        }
-
-        /* Hide stop/regenerate containers when empty */
-        .stop_generating:empty,
-        .regenerate:empty,
-        .stop_generating-hidden {
-            display: none !important;
-        }
-
-        /* 4. Bottom Controls & Model / Provider Selectors Bar */
-        nav.chat-buttons {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            flex-wrap: wrap !important;
-            gap: 12px !important;
-            margin-top: 14px !important;
-            padding: 8px 16px !important;
-            background: rgba(15, 12, 41, 0.6) !important;
-            backdrop-filter: blur(20px) !important;
-            border-radius: 999px !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            width: fit-content !important;
-            margin-left: auto !important;
-            margin-right: auto !important;
-        }
-
-        nav.chat-buttons select {
-            background: rgba(255, 255, 255, 0.12) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            color: #ffffff !important;
-            font-family: 'Inter', sans-serif !important;
-            font-size: 0.84rem !important;
-            font-weight: 600 !important;
-            padding: 6px 14px !important;
-            border-radius: 999px !important;
-            outline: none !important;
-            cursor: pointer !important;
-            transition: all 0.2s ease !important;
-        }
-
-        nav.chat-buttons select option {
-            background: #0f0c29 !important;
-            color: #ffffff !important;
-        }
-
-        nav.chat-buttons select:hover {
-            background: rgba(168, 85, 247, 0.25) !important;
-            border-color: #a855f7 !important;
-        }
-
-        nav.chat-buttons button {
-            background: rgba(255, 255, 255, 0.12) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            color: #ffffff !important;
-            width: 34px !important;
-            height: 34px !important;
-            border-radius: 50% !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            cursor: pointer !important;
-            transition: all 0.2s ease !important;
-        }
-
-        nav.chat-buttons button:hover {
-            background: rgba(168, 85, 247, 0.35) !important;
-            border-color: #a855f7 !important;
-            transform: scale(1.08) !important;
-        }
-
-        /* Light Mode Adjustments for Bottom Controls Bar */
-        body.white nav.chat-buttons, body[data-theme="light"] nav.chat-buttons {
-            background: rgba(255, 255, 255, 0.85) !important;
-            border-color: rgba(199, 210, 254, 0.5) !important;
-            box-shadow: 0 4px 15px rgba(199, 210, 254, 0.3) !important;
-        }
-
-        body.white nav.chat-buttons select, body[data-theme="light"] nav.chat-buttons select {
-            background: rgba(245, 243, 255, 0.9) !important;
-            color: #4c1d95 !important;
-            border-color: rgba(199, 210, 254, 0.6) !important;
-        }
-
-        body.white nav.chat-buttons select option, body[data-theme="light"] nav.chat-buttons select option {
-            background: #ffffff !important;
-            color: #4c1d95 !important;
-        }
-
-        body.white nav.chat-buttons button, body[data-theme="light"] nav.chat-buttons button {
-            background: rgba(245, 243, 255, 0.9) !important;
-            color: #6d28d9 !important;
-            border-color: rgba(199, 210, 254, 0.6) !important;
+            pointer-events: none !important;
         }
     </style>
 

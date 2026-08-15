@@ -70,6 +70,13 @@ dist_dir = os.path.join(DEV_DIR, "dist")
 if os.path.exists(dist_dir):
     app.mount("/dist", StaticFiles(directory=dist_dir), name="dist")
 
+@app.get("/dist/{filepath:path}")
+async def serve_dist_file(filepath: str):
+    file_location = os.path.join(dist_dir, filepath)
+    if os.path.isfile(file_location):
+        return FileResponse(file_location)
+    return Response(status_code=404)
+
 # -------------------------------------------------------------
 #  STANDALONE LUMO CHAT COMPLETIONS API ENDPOINTS
 # -------------------------------------------------------------

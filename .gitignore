@@ -11,6 +11,7 @@ pyvenv.cfg
 lib64
 /.idea
 container/
+g4f.dev
 g4f.exe
 har_and_cookies
 playground
